@@ -1,8 +1,8 @@
 import { AUTO } from "phaser";
-import { Boot } from "./scenes/Boot";
-import { GameScene } from "./scenes/jetpack-joyride/GameScene";
-import { MainMenu } from "./scenes/MainMenu";
-import { Preloader } from "./scenes/Preloader";
+import { Boot } from "./jetpack-joyride/scenes/Boot";
+import { GameScene } from "./jetpack-joyride/scenes/GameScene";
+import { MainMenu } from "./jetpack-joyride/scenes/MainMenu";
+import { Preloader } from "./jetpack-joyride/scenes/Preloader";
 
 export const config: Phaser.Types.Core.GameConfig = {
     type: AUTO,
@@ -19,7 +19,7 @@ export const config: Phaser.Types.Core.GameConfig = {
         pixelArt: true,
         roundPixels: true,
     },
-    scene: [Boot, MainMenu, Preloader, GameScene],
+    scene: [Boot, Preloader, MainMenu, GameScene],
     physics: {
         default: "arcade",
         arcade: {
