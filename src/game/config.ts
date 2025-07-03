@@ -7,7 +7,7 @@ import { Preloader } from "./jetpack-joyride/scenes/Preloader";
 export const config: Phaser.Types.Core.GameConfig = {
     type: AUTO,
     width: 1920,
-    height: 1024,
+    height: 760,
     parent: "game-container",
     backgroundColor: "#028af8",
     scale: {
@@ -23,8 +23,8 @@ export const config: Phaser.Types.Core.GameConfig = {
     physics: {
         default: "arcade",
         arcade: {
-            gravity: { x: 0, y: 900 },
-            debug: true,
+            gravity: { x: 0, y: 1500 },
+            // debug: true,
         },
     },
 };

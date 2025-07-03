@@ -10,7 +10,7 @@ export class ElecHead extends Obstacle {
         this.scale = 1.5;
 
         this.scene.physics.add.overlap(this, (this.scene as GameScene).player, () => {
-            this.parentContainer?.destroy();
+            (this.scene as GameScene).player.switchState("deadbyzap");
         });
     }
     private headAnimCreate() {

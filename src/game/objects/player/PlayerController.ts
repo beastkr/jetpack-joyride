@@ -9,11 +9,12 @@ export class PlayerController {
         this.scene = scene;
     }
     public jetLaunch() {
+        if (this.player.isdead) return;
         const pointer = this.scene.input.activePointer;
         if (pointer.isDown) {
-            (this.player.body as Physics.Arcade.Body).setAccelerationY(-3000);
+            (this.player.body as Physics.Arcade.Body).setAccelerationY(-5000);
         } else {
-            (this.player.body as Physics.Arcade.Body).setAccelerationY(0);
+            (this.player.body as Physics.Arcade.Body).setAccelerationY(200);
         }
     }
 }

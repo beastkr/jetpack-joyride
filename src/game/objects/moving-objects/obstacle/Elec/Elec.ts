@@ -31,6 +31,11 @@ export class Elec extends Phaser.GameObjects.Container {
             element.setAngle(degrees);
         });
     }
+    update() {
+        if (this.tail.x <= -100 - this.x) {
+            this.setActive(false);
+        }
+    }
 
     animInit() {
         Animator.createAnim(this.scene, "elecglow", "elecOnGlow", 0, 15);
@@ -52,10 +57,10 @@ export class Elec extends Phaser.GameObjects.Container {
         const count = Math.floor(distance / segmentLength);
 
         const angle = Phaser.Math.Angle.Between(0, 0, lenx, leny); // relative from head to tail
-        const dx = Math.cos(angle) * segmentLength;
-        const dy = Math.sin(angle) * segmentLength;
+        const dx = Math.cos(angle) * segmentLength - 1;
+        const dy = Math.sin(angle) * segmentLength - leny / Math.abs(leny);
 
-        for (let i = 0; i <= count; i++) {
+        for (let i = 0; i <= count + 1; i++) {
             const x = dx * i;
             const y = dy * i;
 
@@ -75,7 +80,7 @@ export class Elec extends Phaser.GameObjects.Container {
                 zap.body.setSize(w, h / 4); // thin collider
                 zap.body.setOffset(0, h / 2 - h / 8); // center the collider vertically
             }
-
+            Animator.play(zap, "zapFX", i % 32);
             this.zapfx.push(zap);
         }
     }
