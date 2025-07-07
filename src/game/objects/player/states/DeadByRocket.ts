@@ -3,7 +3,7 @@ import { Animator } from "../../../jetpack-joyride/Animator";
 import { GameScene } from "../../../jetpack-joyride/scenes/GameScene";
 import { PlayerState } from "./PlayerState";
 
-export class DeadByZap extends PlayerState {
+export class DeadByRocket extends PlayerState {
     progress: number = 0;
     public onEnter(): void {
         if (this.player.vehicle != null) {
@@ -19,7 +19,7 @@ export class DeadByZap extends PlayerState {
         this.player.isdead = true;
         this.player.scene.cameras.main.shake(250, 0.01);
 
-        Animator.playAnim(this.player.playerSprite, "deadzap", () => {
+        Animator.playAnim(this.player.playerSprite, "deadrocket", () => {
             this.player.switchState("dead");
         });
     }
@@ -29,11 +29,11 @@ export class DeadByZap extends PlayerState {
     }
     public onExit(): void {}
     protected animInit(): void {
-        this.createZapDeadAnim();
+        this.createDeadAnim();
     }
 
-    private createZapDeadAnim() {
-        Animator.createAnim(this.player.scene, "deadzap_head", "player_head", 16, 19, 12, false);
-        Animator.createAnim(this.player.scene, "deadzap_body", "player_body", 16, 19, 12, false);
+    private createDeadAnim() {
+        Animator.createAnim(this.player.scene, "deadrocket_head", "player_head", 20, 23, 12, false);
+        Animator.createAnim(this.player.scene, "deadrocket_body", "player_body", 20, 23, 12, false);
     }
 }

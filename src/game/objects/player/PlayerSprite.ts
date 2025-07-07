@@ -1,3 +1,5 @@
+import { GameObjects } from "phaser";
+
 export class PlayerSprite extends Phaser.GameObjects.Container {
     playerHead: Phaser.GameObjects.Sprite;
     playerBody: Phaser.GameObjects.Sprite;
@@ -12,6 +14,17 @@ export class PlayerSprite extends Phaser.GameObjects.Container {
         this.scale = 4;
     }
 
+    public flip(x: boolean, y: boolean) {
+        this.list.forEach((element) => {
+            (element as GameObjects.Sprite).setFlip(x, y);
+        });
+    }
+
+    public showAll(head: boolean = true, body: boolean = true, jetpack: boolean = true) {
+        this.playerHead.setVisible(head);
+        this.playerBody.setVisible(body);
+        this.playerJetpack.setVisible(jetpack);
+    }
     private addBody() {
         this.playerBody = this.scene.add.sprite(10, 5, "player_body");
         this.add(this.playerBody);

@@ -7,7 +7,7 @@ export class ZapPool extends Phaser.GameObjects.Group {
         this.createMultiple({
             classType: Zap,
             key: "zap", // sprite key
-            frameQuantity: 50, // adjust to max needed
+            frameQuantity: 10, // adjust to max needed
             active: false,
             visible: false,
             setXY: { x: -1000, y: -1000 }, // offscreen

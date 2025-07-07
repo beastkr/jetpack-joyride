@@ -7,7 +7,7 @@ export class ElecHead extends Obstacle {
         super(scene, x, y, texture);
         this.headAnimCreate();
         Animator.play(this, "elechead");
-        this.scale = 1.5;
+        this.scale = 1;
 
         this.scene.physics.add.overlap(this, (this.scene as GameScene).player, () => {
             (this.scene as GameScene).player.switchState("deadbyzap");

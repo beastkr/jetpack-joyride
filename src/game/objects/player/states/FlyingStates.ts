@@ -7,12 +7,23 @@ export class FlyingState extends PlayerState {
     private falling: boolean = false;
     private jetFX: Phaser.GameObjects.Sprite;
     private bulletParticle: Bullets;
+    private shootingsound;
+    private stopsound;
     constructor(player: Player) {
         super(player);
-        this.bulletParticle = new Bullets(this.player.scene, this.player);
+        if (!this.bulletParticle) this.bulletParticle = new Bullets(this.player.scene, this.player);
+        this.shootingsound = this.player.scene.sound.add("shooting", { loop: true });
+        this.stopsound = this.player.scene.sound.add("stopshooting");
+        this.bulletParticle.stop();
     }
     public onEnter(): void {
         if (!this.jetFX) this.createJetFX();
+        this.player.scene.tweens.add({
+            targets: this.jetFX,
+            alpha: { from: 1, to: 0 },
+            loop: -1,
+            duration: 100,
+        });
     }
     public onUpdate(...args: any[]): void {
         this.player.controller.jetLaunch();
@@ -28,15 +39,19 @@ export class FlyingState extends PlayerState {
         this.jetFX.setVisible(visible);
     }
     private flyup() {
+        if (!this.shootingsound.isPlaying) this.shootingsound.play();
         this.setFXVisible(true);
         Animator.playAnim(this.player.playerSprite, "flyup");
         // this.bulletParticle.emitParticleAt(this.player.x, this.player.y, 1);
+
         this.bulletParticle.start();
     }
     public onExit(): void {
         this.setFXVisible(false);
         (this.player.body as Phaser.Physics.Arcade.Body).setVelocityY(0);
         this.bulletParticle.stop();
+        this.stopsound.stop();
+        this.shootingsound.stop();
     }
 
     protected animInit() {
@@ -78,12 +93,14 @@ export class FlyingState extends PlayerState {
 
     private checkFall() {
         const body = this.player.body as Phaser.Physics.Arcade.Body;
-        if (body.velocity.y > 0 && !this.falling) {
+        if (body.velocity.y > 50 && !this.falling) {
             this.falling = true;
             Animator.playAnim(this.player.playerSprite, "flydown");
             this.setFXVisible(false);
             this.bulletParticle.stop();
+            this.stopsound.play();
+            this.shootingsound.stop();
         }
-        if (body.velocity.y <= 0) this.falling = false;
+        if (body.velocity.y <= 50) this.falling = false;
     }
 }

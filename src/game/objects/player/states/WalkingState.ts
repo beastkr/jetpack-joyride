@@ -4,22 +4,40 @@ import { Player } from "../Player";
 import { PlayerState } from "./PlayerState";
 
 export class WalkingState extends PlayerState {
+    runsound: Phaser.Sound.BaseSound[] = [];
     public constructor(player: Player) {
         super(player);
+        for (let i = 1; i < 5; i++) {
+            this.runsound[i] = this.player.scene.sound.add("run_" + String(i));
+            this.runsound[i].on("complete", () => {
+                this.runsound[i == 4 ? 1 : i + 1].play();
+            });
+        }
     }
     public onEnter(): void {
         Animator.playAnim(this.player.playerSprite, "landing", () => {
             Animator.playAnim(this.player.playerSprite, "walking");
         });
+        this.runsound[1].play();
     }
 
     public onUpdate(...args: any[]): void {
-        this.player.controller.jetLaunch();
-        if ((this.player.body as Physics.Arcade.Body).velocity.y < 0) {
-            this.player.switchState("flying");
+        if (this.player.vehicle === null) {
+            console.log("aaa");
+            this.player.controller.jetLaunch();
+            if ((this.player.body as Physics.Arcade.Body).velocity.y < 0) {
+                this.player.switchState("flying");
+            }
+        } else {
+            this.player.vehicle.control();
+            console.log("control;");
         }
     }
-    public onExit(): void {}
+    public onExit(): void {
+        this.runsound.forEach((element) => {
+            (element as Phaser.Sound.BaseSound).stop();
+        });
+    }
 
     protected animInit(): void {
         this.landingInit();
