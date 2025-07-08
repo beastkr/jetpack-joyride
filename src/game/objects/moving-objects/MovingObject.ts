@@ -8,7 +8,7 @@ export abstract class MovingObject extends Phaser.Physics.Arcade.Sprite {
         this.scene.add.existing(this);
         (this.body as Phaser.Physics.Arcade.Body)?.setImmovable(true).setAllowGravity(false);
         this.speed = GameManager.speed;
-        this.move();
+        // this.move();
     }
 
     public abstract move(): void;

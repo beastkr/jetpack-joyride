@@ -1,10 +1,20 @@
 import { GameScene } from "../../../jetpack-joyride/scenes/GameScene";
+import { Bigcoin } from "./Bigcoin";
 import { Coin } from "./Coin";
-import { heartPattern } from "./coin_tile_pattern";
+import * as CoinTilePatterns from "./coin_tile_pattern";
 
 export class CoinPool extends Phaser.GameObjects.Group {
+    bigPool: Phaser.GameObjects.Group;
     constructor(scene: Phaser.Scene) {
         super(scene);
+        this.bigPool = scene.add.group();
+        this.bigPool.createMultiple({
+            frameQuantity: 100,
+            key: "bigcoin",
+            active: false,
+            visible: false,
+            classType: Bigcoin,
+        });
         this.createMultiple({
             frameQuantity: 300,
             key: "coin",
@@ -17,13 +27,16 @@ export class CoinPool extends Phaser.GameObjects.Group {
         this.getChildren().forEach((element) => {
             element.update();
         });
+        this.bigPool.getChildren().forEach((element) => {
+            element.update();
+        });
     }
 
     public test(scene: GameScene) {
-        const pattern = heartPattern;
-        let y = Math.random() * 300 + 300;
-        this.spawnFromPattern(scene, pattern, 3000, y, 32);
-        console.log("aa");
+        const patterns = Object.values(CoinTilePatterns);
+        const pattern = Phaser.Math.RND.pick(patterns); // random pick
+        const y = Math.random() * 300 + 300;
+        this.spawnFromPattern(scene, pattern, 2000, y, 32);
     }
     public spawnFromPattern(
         scene: GameScene,
@@ -34,19 +47,46 @@ export class CoinPool extends Phaser.GameObjects.Group {
     ): void {
         pattern.forEach((rowData, rowIndex) => {
             rowData.forEach((cell, colIndex) => {
-                if (cell !== 1) return;
+                if (cell === 0) return;
 
                 const x = startX + colIndex * tileSize;
                 const y = startY + rowIndex * tileSize;
-                const coin = this.getFirstDead(false) as Coin | null;
 
-                if (!coin) return;
+                if (cell === 1) {
+                    const coin = this.getFirstDead(false) as Coin | null;
+                    if (!coin) return;
 
-                coin.moveTo(x, y);
-                coin.enableBody(true, x, y, true, true).setVisible(true);
-                coin.using = true;
-                coin.move();
+                    coin.moveTo(x, y);
+                    coin.enableBody(true, x, y, true, true).setVisible(true);
+                    coin.using = true;
+                    coin.move();
+                } else if (cell === 2) {
+                    const bigCoin = this.bigPool.getFirstDead(false) as Bigcoin | null;
+                    if (!bigCoin) return;
+
+                    bigCoin.moveTo(x, y);
+                    bigCoin.enableBody(true, x, y, true, true).setVisible(true);
+                    bigCoin.using = true;
+                    bigCoin.move();
+                }
             });
+        });
+    }
+    public disableAll() {
+        this.getChildren().forEach((element: any) => {
+            if (element.body) {
+                element.disableBody(true, true);
+            }
+            element.setActive(false).setVisible(false);
+            element.using = false;
+        });
+
+        this.bigPool.getChildren().forEach((element: any) => {
+            if (element.body) {
+                element.disableBody(true, true);
+            }
+            element.setActive(false).setVisible(false);
+            element.using = false;
         });
     }
 }

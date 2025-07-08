@@ -7,5 +7,5 @@ export abstract class GameState {
     }
     public abstract onEnter(): void;
     public abstract onUpdate(time: number, delta: number): void;
-    public abstract onExit(): void;
+    public onExit(): void {}
 }

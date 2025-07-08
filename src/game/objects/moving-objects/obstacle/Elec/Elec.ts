@@ -51,14 +51,14 @@ export class Elec extends Phaser.GameObjects.Container {
         });
     }
     update() {
-        this.move();
+        // this.move();
         if (!this.active) return;
         if (this.tail.x <= -10 - this.x) {
             this.deactivate();
         }
-        this.list.forEach((element) => {
-            element.update();
-        });
+        // this.list.forEach((element) => {
+        //     element.update();
+        // });
         this.headfx.setPosition(this.head.x, this.head.y);
         this.tailfx.setPosition(this.tail.x, this.tail.y);
     }
@@ -120,6 +120,7 @@ export class Elec extends Phaser.GameObjects.Container {
         this.tailfx.setPosition(this.tail.x, this.tail.x);
         this.calc(lenx + x - this.x, leny + y - this.y);
         this.rotateOrb();
+        this.move();
     }
 
     deactivate() {

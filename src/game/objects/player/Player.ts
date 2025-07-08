@@ -28,7 +28,7 @@ export class Player extends Phaser.GameObjects.Container {
         this.stateInit();
         this.controller = new PlayerController(this.scene, this);
         this.scene.add.existing(this);
-        this.switchState("walking");
+        this.switchState("hold");
         this.scale = 0.5;
         this.setDepth(111);
     }

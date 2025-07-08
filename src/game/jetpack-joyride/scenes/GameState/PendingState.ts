@@ -6,17 +6,41 @@ import { GameState } from "./GameState";
 export class PendingState extends GameState {
     playingsound: Phaser.Sound.BaseSound;
     startOverlay: StartGameOverlay;
+    explode: Phaser.GameObjects.Particles.ParticleEmitter;
+    explodesound: Phaser.Sound.BaseSound;
     constructor(scene: GameScene) {
         super(scene);
+        this.explodesound = this.scene.sound.add("smash");
         this.playingsound = this.scene.sound.add("menuBGM", { loop: true });
+        this.explode = this.scene.add.particles(-15, 700, "dust", {
+            angle: { min: -110, max: 110 }, // movement direction
+            speed: 300,
+            scale: { min: 1, max: 2 },
+            rotate: { min: 0, max: 360 },
+            alpha: { start: 1, end: 0 },
+            lifespan: 1000,
+            frequency: 50,
+            quantity: 5,
+            emitting: false,
+        });
     }
     public onEnter(): void {
-        this.playingsound.play();
         if (!this.startOverlay) this.startOverlay = new StartGameOverlay(this.scene);
-        else this.startOverlay.setActive(true).setVisible(true);
+        if (!this.playingsound.isPlaying) {
+            this.playingsound.play();
+        }
+
         (this.scene.player.body as Physics.Arcade.Body).setAllowGravity(false);
         GameManager.speed = 0;
+        this.scene.tweens.add({
+            targets: this.startOverlay,
+            alpha: { from: 0, to: 1 },
+            duration: 1000,
+        });
+        this.startOverlay.setVisible(true);
         this.scene.input.once("pointerdown", () => {
+            this.explode.start();
+            this.explodesound.play();
             (this.scene.player.body as Physics.Arcade.Body).setAllowGravity(true);
             this.scene.cameras.main.shake(250, 0.01);
             (this.scene.player.body as Phaser.Physics.Arcade.Body).setVelocityX(300);
@@ -26,7 +50,8 @@ export class PendingState extends GameState {
                 alpha: { from: 1, to: 0 },
                 duration: 1000,
                 onComplete: () => {
-                    this.startOverlay.setActive(false).setVisible(false);
+                    this.explode.stop();
+                    this.startOverlay.setVisible(false);
                 },
             });
         });
@@ -38,8 +63,9 @@ export class PendingState extends GameState {
     }
     public onExit(): void {
         this.playingsound.stop();
-        this.startOverlay.setActive(false).setVisible(false);
+        this.startOverlay.setVisible(false);
         GameManager.speed = 300;
         (this.scene.player.body as Phaser.Physics.Arcade.Body).setVelocityX(0);
+        GameManager.score = 0;
     }
 }

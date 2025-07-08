@@ -24,6 +24,7 @@ export class FlyingState extends PlayerState {
             loop: -1,
             duration: 100,
         });
+        this.flyup();
     }
     public onUpdate(...args: any[]): void {
         this.player.controller.jetLaunch();

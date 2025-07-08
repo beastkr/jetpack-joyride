@@ -10,13 +10,15 @@ export class WalkingState extends PlayerState {
         for (let i = 1; i < 5; i++) {
             this.runsound[i] = this.player.scene.sound.add("run_" + String(i));
             this.runsound[i].on("complete", () => {
-                this.runsound[i == 4 ? 1 : i + 1].play();
+                if (!this.runsound[i == 4 ? 1 : i + 1].isPlaying)
+                    this.runsound[i == 4 ? 1 : i + 1].play();
             });
         }
     }
     public onEnter(): void {
         Animator.playAnim(this.player.playerSprite, "landing", () => {
-            Animator.playAnim(this.player.playerSprite, "walking");
+            if (this.player.body?.velocity.y == 0)
+                Animator.playAnim(this.player.playerSprite, "walking");
         });
         this.runsound[1].play();
     }

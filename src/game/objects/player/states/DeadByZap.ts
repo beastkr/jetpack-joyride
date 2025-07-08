@@ -5,7 +5,9 @@ import { PlayerState } from "./PlayerState";
 
 export class DeadByZap extends PlayerState {
     progress: number = 0;
+    sound: Phaser.Sound.BaseSound;
     public onEnter(): void {
+        if (!this.sound) this.sound = this.player.scene.sound.add("playerelec");
         if (this.player.vehicle != null) {
             this.player.vehicle = null;
             this.player.switchState("reborn");
@@ -18,7 +20,7 @@ export class DeadByZap extends PlayerState {
         this.player.playerSprite.playerJetpack.setVisible(false);
         this.player.isdead = true;
         this.player.scene.cameras.main.shake(250, 0.01);
-
+        this.sound.play();
         Animator.playAnim(this.player.playerSprite, "deadzap", () => {
             this.player.switchState("dead");
         });

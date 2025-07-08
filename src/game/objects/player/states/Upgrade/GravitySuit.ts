@@ -10,7 +10,7 @@ export class GravitySuit extends Vehicle {
     protected animInit(): void {
         Animator.createAnim(this.scene, "walking_gravitysuit", "gravitysuit", 0, 5);
         Animator.createAnim(this.scene, "landing_gravitysuit", "gravitysuit", 18, 21, 12, false);
-        Animator.createAnim(this.scene, "flip_gravitysuit", "gravitysuit", 6, 17, 24, true);
+        Animator.createAnim(this.scene, "flip_gravitysuit", "gravitysuit", 6, 17, 12, true);
     }
     public control() {
         this.player.controller.gravChange(true);

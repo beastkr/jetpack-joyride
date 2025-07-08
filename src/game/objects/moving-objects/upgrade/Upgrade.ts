@@ -3,12 +3,14 @@ import { GameManager } from "../../../jetpack-joyride/GameManager";
 import { MovingObject } from "../MovingObject";
 
 export class Upgrade extends MovingObject {
+    upgradesound: Phaser.Sound.BaseSound;
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, "upgrade");
         this.createUpgradeAnim();
+        this.upgradesound = this.scene.sound.add("powerup");
         Animator.play(this, "upgrade");
         this.scene.physics.add.overlap(this, (this.scene as any).player, () => {
-            this.onCollect();
+            if (!(this.scene as any).player.isdead) this.onCollect();
         });
         this.scale = 0.8;
         // this.move();
@@ -16,7 +18,8 @@ export class Upgrade extends MovingObject {
     }
     protected preUpdate(time: number, delta: number): void {
         super.preUpdate(time, delta);
-        this.move();
+        // this.move();
+        if (this.x < -1000) this.disableBody(true, true).setVisible(false);
     }
     public move(): void {
         this.speed = GameManager.speed;
@@ -27,6 +30,7 @@ export class Upgrade extends MovingObject {
         Animator.createAnim(this.scene, "upgrade", "upgrade", 0, 7);
     }
     private onCollect() {
+        this.upgradesound.play();
         this.disableBody(true, true).setVisible(false);
         (this.scene as any).player.switchState("upgrade");
     }

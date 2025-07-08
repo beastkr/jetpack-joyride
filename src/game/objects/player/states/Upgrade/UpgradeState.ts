@@ -17,6 +17,7 @@ export class UpgradeState extends PlayerState {
         this.currentVehicle = this.vehicles[1];
         this.player.playerSprite.add(this.currentVehicle);
         this.player.vehicle = this.currentVehicle;
+        this.player.scene.cameras.main.flash(500, 255, 255, 255); // duration, r, g, b
     }
 
     public onUpdate(time: number, delta: number): void {}
