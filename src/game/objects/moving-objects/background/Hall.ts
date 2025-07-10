@@ -10,8 +10,8 @@ export class Hall implements JetpackJoyride.IBackGround {
         this.scene = scene;
         this.map = this.scene.make.tilemap({
             key: "hall_map",
-            tileHeight: 512,
-            tileWidth: 512,
+            tileHeight: 256,
+            tileWidth: 256,
         });
         const tileset = this.map.addTilesetImage("warehouse_assets", "hall");
         this.mapBG = this.map.createLayer(
@@ -31,7 +31,6 @@ export class Hall implements JetpackJoyride.IBackGround {
     update(time: number, delta: number): void {
         this.maplayer.x -= (GameManager.speed * delta) / 1000;
         this.mapBG.x -= (GameManager.speed * delta) / 1000;
-        console.log(this.mapBG.scale);
     }
     moveTo(x: number) {
         this.maplayer.x = x;

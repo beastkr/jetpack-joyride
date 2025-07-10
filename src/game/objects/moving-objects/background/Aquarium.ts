@@ -10,8 +10,8 @@ export class Aquarium implements JetpackJoyride.IBackGround {
         this.scene = scene;
         this.map = this.scene.make.tilemap({
             key: "aquarium_map",
-            tileHeight: 512,
-            tileWidth: 512,
+            tileHeight: 256,
+            tileWidth: 256,
         });
         const tileset = this.map.addTilesetImage("aquarium_assets", "aquarium");
         this.mapBG = this.map.createLayer(
@@ -31,7 +31,6 @@ export class Aquarium implements JetpackJoyride.IBackGround {
     update(time: number, delta: number): void {
         this.maplayer.x -= (GameManager.speed * delta) / 1000;
         this.mapBG.x -= (GameManager.speed * delta) / 1000;
-        console.log(this.mapBG.scale);
     }
     moveTo(x: number) {
         this.maplayer.x = x;

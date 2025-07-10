@@ -14,6 +14,7 @@ export class DeadByZap extends PlayerState {
             console.log("pppp");
             (this.player.scene as GameScene).zapManager.disableAll();
             (this.player.scene as GameScene).rockets.disableAll();
+            (this.player.scene as GameScene).lasers.rest();
             return;
         }
         this.progress = 0;

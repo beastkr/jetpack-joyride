@@ -94,7 +94,7 @@ export class PlayingState extends GameState {
             this.scene.progress = 0;
 
             if (!this.scene.player.isdead) {
-                const rand = Phaser.Math.Between(0, 2);
+                const rand = Phaser.Math.Between(0, 3);
                 switch (rand) {
                     case 0:
                         this.scene.coinManager.test(this.scene);
@@ -105,6 +105,9 @@ export class PlayingState extends GameState {
                         break;
                     case 2:
                         this.scene.rockets.getRocket(this.scene);
+                        break;
+                    case 3:
+                        if (Phaser.Math.Between(0, 4) == 4) this.scene.lasers.shot();
                         break;
                 }
             }
@@ -183,6 +186,7 @@ export class PlayingState extends GameState {
         this.scene.coinManager.disableAll();
         this.scene.zapManager.disableAll();
         this.scene.rockets.disableAll();
+        this.scene.lasers.rest();
     }
 
     private addText() {

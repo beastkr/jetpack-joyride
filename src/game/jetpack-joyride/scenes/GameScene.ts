@@ -1,6 +1,7 @@
 import { BGLoop } from "../../objects/moving-objects/background/BGLoop";
 import { CoinPool } from "../../objects/moving-objects/coins/CoinPool";
 import { ElecPool } from "../../objects/moving-objects/obstacle/Elec/ElecPool";
+import { LazerManager } from "../../objects/moving-objects/obstacle/Lazer/LazerManager";
 import { RocketPool } from "../../objects/moving-objects/obstacle/Rocket/RocketPool";
 import { Worker } from "../../objects/moving-objects/worker/Worker";
 import { Player } from "../../objects/player/Player";
@@ -29,6 +30,7 @@ export class GameScene extends Phaser.Scene implements JetpackJoyride.IGameScene
     zapManager: ElecPool;
     rockets: RocketPool;
     startOverlay: StartGameOverlay;
+    lasers: LazerManager;
     dieOnce: boolean = false;
     constructor() {
         super("GameScene");
@@ -46,6 +48,7 @@ export class GameScene extends Phaser.Scene implements JetpackJoyride.IGameScene
         this.LoadUpgradeComponents();
         this.LoadParticle();
         this.LoadBackGround();
+        this.loadLazer();
         this.load.image("room1", "assets/Levels/Room1/room1_1.png");
         this.load.image("shadow", "assets/Characters/effect_shadow.png");
         this.load.image("bullet", "assets/Characters/Effects/effect_smgbullet.png");
@@ -62,6 +65,7 @@ export class GameScene extends Phaser.Scene implements JetpackJoyride.IGameScene
         this.createBot();
         this.createTop();
         this.coinManager = new CoinPool(this);
+        this.lasers = new LazerManager(this);
         for (var i = 0; i < 5; i++) this.worker.push(new Worker(this, 2000, 600));
         this.worker.forEach((element) => {
             (element as Worker).rest();
@@ -274,6 +278,17 @@ export class GameScene extends Phaser.Scene implements JetpackJoyride.IGameScene
         this.load.spritesheet("speedup", "assets/new/spdup.png", {
             frameWidth: 128,
             frameHeight: 128,
+        });
+    }
+    private loadLazer() {
+        this.load.spritesheet("lazerhead", "assets/Obstacles/Laser/laser.png", {
+            frameWidth: 128,
+            frameHeight: 128,
+        });
+        this.load.image("lazerwarning", "assets/Obstacles/Laser/laserWarning.png");
+        this.load.spritesheet("laser", "assets/Obstacles/Laser/laserPower.png", {
+            frameWidth: 64,
+            frameHeight: 64,
         });
     }
 }
