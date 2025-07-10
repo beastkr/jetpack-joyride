@@ -28,37 +28,28 @@ export class Elec extends Phaser.GameObjects.Container implements JetpackJoyride
 
         this.animInit();
 
-        // Create head and tail components with container flag
         this.head = new ElecHead(scene, 0, 0, "", true);
         this.tail = new ElecHead(scene, lenx, leny, "", true);
 
         this.fxSetup(lenx, leny);
 
-        // Add components in correct order for proper layering:
-        // 1. Effect sprites (bottom layer)
         this.add([this.headfx, this.tailfx]);
 
-        // 2. Calculate and collect zap components
         const zapComponents = this.calcZaps(lenx, leny);
 
-        // 3. Add zap components (middle layer)
         this.add(zapComponents);
 
-        // 4. Add head and tail last (top layer) - this ensures they render on top
         this.add([this.head, this.tail]);
 
         this.rotateOrb();
 
-        // Add the container to the scene
         scene.add.existing(this);
 
-        // Set up physics for the container itself
         scene.physics.add.existing(this);
         if (this.body) {
             (this.body as Phaser.Physics.Arcade.Body).setImmovable(true).setAllowGravity(false);
         }
 
-        // Start movement
         this.move();
     }
 
@@ -74,12 +65,10 @@ export class Elec extends Phaser.GameObjects.Container implements JetpackJoyride
 
     public move(): void {
         this.speed = GameManager.speed;
-        // Move the entire container using physics
         if (this.body) {
             (this.body as Phaser.Physics.Arcade.Body).setVelocityX(-this.speed);
         }
 
-        // Stop individual component movements since container will move them all
         if (this.head.body) {
             (this.head.body as Phaser.Physics.Arcade.Body).setVelocityX(0);
         }
@@ -96,19 +85,15 @@ export class Elec extends Phaser.GameObjects.Container implements JetpackJoyride
     update() {
         if (!this.active) return;
 
-        // Update speed to match game speed
         this.speed = GameManager.speed;
         if (this.body) {
             (this.body as Phaser.Physics.Arcade.Body).setVelocityX(-this.speed);
         }
 
-        // Check if off-screen for deactivation
         if (this.x <= -200) {
-            // Use container position instead of tail position
             this.deactivate();
         }
 
-        // Update effect positions to follow their respective components
         this.headfx.setPosition(this.head.x, this.head.y);
         this.tailfx.setPosition(this.tail.x, this.tail.y);
     }
@@ -141,7 +126,7 @@ export class Elec extends Phaser.GameObjects.Container implements JetpackJoyride
             const x = dx * i;
             const y = dy * i;
 
-            const zap = this.zapfx.getZap(this.scene, x, y, true);
+            const zap = this.zapfx.getZap(this.scene, x, y);
             zap.setAngle(Phaser.Math.RadToDeg(angle));
 
             // Remove zap from scene since it will be part of container

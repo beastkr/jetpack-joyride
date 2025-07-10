@@ -15,7 +15,6 @@ export class Zap extends Obstacle {
         this.setDepth(80);
         this.isInContainer = inContainer;
 
-        // Remove from scene if it will be added to a container
         if (inContainer) {
             scene.children.remove(this);
         }
@@ -29,18 +28,8 @@ export class Zap extends Obstacle {
             if (!player.isdead) player.switchState("deadbyzap");
         });
     }
-
-    // Override move to do nothing when part of a container
     public override move(): void {
-        if (this.isInContainer) {
-            // Don't move independently - let the container handle movement
-            if (this.body) {
-                (this.body as Phaser.Physics.Arcade.Body).setVelocityX(0);
-            }
-        } else {
-            // Use parent behavior if not in container
-            super.move();
-        }
+        (this.body as Phaser.Physics.Arcade.Body).setVelocityX(0);
     }
 
     private zapAnim() {

@@ -28,11 +28,8 @@ export class Worker extends Phaser.GameObjects.Container implements JetpackJoyri
         this.scene.physics.add.existing(this);
         (this.body as Phaser.Physics.Arcade.Body).setSize(70, 128).setOffset(0, -64);
         this.scene.physics.add.collider(this, (this.scene as GameScene).bot);
-
-        // this.setupBulletCollisions();
     }
 
-    // private setupBulletCollisions() {}
     public move(): void {
         if (this.dead || (this.scene as GameScene).currentState instanceof DashState) {
             // Dead workers fall with gravity only
@@ -40,7 +37,6 @@ export class Worker extends Phaser.GameObjects.Container implements JetpackJoyri
             return;
         }
 
-        // Normal movement - workers move at their own speed in their direction
         (this.body as Phaser.Physics.Arcade.Body).setVelocityX(this.offset * this.speed);
     }
     public rest() {
@@ -67,30 +63,23 @@ export class Worker extends Phaser.GameObjects.Container implements JetpackJoyri
     }
 
     update() {
-        // Reset worker position if it goes off-screen
         if (this.x < -400 || this.x > this.scene.cameras.main.width + 400) {
             this.rest();
         }
 
-        // Handle dead worker animation
         if (this.dead) {
             this.setRotation(Phaser.Math.DegToRad(90));
             Animator.playAnim(this.workerSprite, "dead");
         }
 
-        // Update movement
         this.move();
-
-        // Update sprite direction based on movement
         if (this.body) this.workerSprite.flip(this.offset < 0, false);
 
-        // Apply gravity
         (this.body as Physics.Arcade.Body).setGravity(
             0,
             Math.abs(this.scene.physics.world.gravity.y)
         );
 
-        // Reset if worker goes too far right (legacy behavior)
         if (this.x > 2000) {
             this.x = -100;
             this.workerSprite.start();

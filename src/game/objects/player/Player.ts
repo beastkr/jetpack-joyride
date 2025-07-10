@@ -56,7 +56,6 @@ export class Player extends Phaser.GameObjects.Container implements JetpackJoyri
         // Update state machine
         this.stateMachine.update(time, delta);
 
-        // Update legacy currentState for backward compatibility
         this.currentState = this.stateMachine.currentState!;
 
         this.shadowSprite.x = this.x;
@@ -66,10 +65,8 @@ export class Player extends Phaser.GameObjects.Container implements JetpackJoyri
     public switchState(key: string) {
         if (key == "walking" && this.isdead) return;
 
-        // Use state machine for state switching
         this.stateMachine.switchState(key);
 
-        // Update legacy currentState for backward compatibility
         this.currentState = this.stateMachine.currentState!;
     }
 

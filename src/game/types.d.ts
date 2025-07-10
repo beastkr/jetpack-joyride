@@ -189,12 +189,6 @@ declare namespace JetpackJoyride {
         resettext(): void;
     }
 
-    interface IUiContainer {
-        // Basic container interface
-    }
-
-    // ===== BACKGROUND INTERFACES =====
-
     interface IBackGround {
         scene: Phaser.Scene;
         map: Phaser.Tilemaps.Tilemap;

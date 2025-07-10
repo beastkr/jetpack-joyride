@@ -67,26 +67,21 @@ export class Bullets extends Phaser.GameObjects.Container implements JetpackJoyr
             gameScene.bot.body as Phaser.Physics.Arcade.Body
         );
         hitBullets.forEach((bullet) => {
-            // Create explosion at bullet position
             this.explosionPool.createExplosion(bullet.x, bullet.y);
 
-            // Eject shell at player position
             this.bulletShellPool.ejectShell(this.player.x, this.player.y + 50);
 
-            // Remove bullet
             this.bulletPool.returnBullet(bullet);
         });
 
-        // Check bullet collisions with workers
         this.checkWorkerCollisions();
     }
 
     private checkWorkerCollisions(): void {
         const gameScene = this.player.scene as GameScene;
 
-        // Check each active bullet against all workers
         this.bulletPool.getChildren().forEach((bulletObj) => {
-            const bullet = bulletObj as any; // Cast to access properties
+            const bullet = bulletObj as any;
             if (bullet.active && bullet.body) {
                 gameScene.worker.forEach((worker) => {
                     if (

@@ -24,7 +24,6 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite implements JetpackJoyri
         this.setVisible(true);
         this.startTime = this.scene.time.now;
 
-        // Set bullet velocity (angled between 70-110 degrees, speed 2000)
         const angle = Phaser.Math.DegToRad(Phaser.Math.Between(70, 110));
         const speed = 2000;
         this.setVelocity(Math.cos(angle) * speed, Math.sin(angle) * speed);
@@ -41,7 +40,6 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite implements JetpackJoyri
             return;
         }
 
-        // Check if bullet is off-screen
         if (
             this.x > this.scene.cameras.main.width + 100 ||
             this.y > this.scene.cameras.main.height + 100 ||
@@ -59,7 +57,6 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite implements JetpackJoyri
     }
 
     public explode(): void {
-        // This will be called when bullet hits something
         this.deactivate();
     }
 }

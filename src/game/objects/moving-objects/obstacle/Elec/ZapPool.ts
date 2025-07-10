@@ -14,7 +14,7 @@ export class ZapPool extends Phaser.GameObjects.Group implements JetpackJoyride.
         });
     }
 
-    getZap(scene: Phaser.Scene, x: number, y: number, inContainer: boolean = false): Zap {
+    getZap(scene: Phaser.Scene, x: number, y: number): Zap {
         const zap = this.getFirstDead(false) as Zap;
         if (zap) {
             zap.setActive(true);
@@ -24,7 +24,7 @@ export class ZapPool extends Phaser.GameObjects.Group implements JetpackJoyride.
             return zap;
         } else {
             // fallback if pool is exhausted (optional)
-            const fallback = new Zap(scene, x, y, "", inContainer);
+            const fallback = new Zap(scene, x, y, "");
             this.add(fallback);
             return fallback;
         }
