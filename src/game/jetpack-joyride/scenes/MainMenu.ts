@@ -16,16 +16,20 @@ export class MainMenu extends Scene {
     create() {
         const { width, height } = this.scale;
 
+        // Add background image at center
         this.background = this.add.image(width / 2, height / 2, "splash");
+
+        // Get the original image dimensions
         const bgWidth = this.background.width;
         const bgHeight = this.background.height;
 
-        const scaleX = this.scale.width / bgWidth;
-        const scaleY = this.scale.height / bgHeight;
-        const scale = Math.max(scaleX, scaleY);
+        // Calculate scale to fit the screen (cover the entire screen)
+        const scaleX = width / bgWidth;
+        const scaleY = height / bgHeight;
 
-        this.background.setScale(scale);
-        this.background.setScrollFactor(0); // keeps it fixed if camera moves
+        // Apply the scale
+        this.background.setScale(scaleX, scaleY);
+        this.background.setScrollFactor(0); // Keep it fixed if camera moves
 
         this.input.once("pointerdown", () => {
             this.scene.start("GameScene");

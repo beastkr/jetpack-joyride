@@ -1,4 +1,7 @@
-export class UiContainer extends Phaser.GameObjects.Container {
+export class UiContainer
+    extends Phaser.GameObjects.Container
+    implements JetpackJoyride.IUiContainer
+{
     border: Phaser.GameObjects.Sprite[][] = [[]];
     constructor(scene: Phaser.Scene, x: number, y: number, sizeX: number, sizeY: number) {
         super(scene, x, y);
@@ -45,7 +48,6 @@ export class UiContainer extends Phaser.GameObjects.Container {
         this.border.forEach((element) => {
             element.forEach((e) => {
                 this.add(e);
-                console.log(e);
             });
         });
     }

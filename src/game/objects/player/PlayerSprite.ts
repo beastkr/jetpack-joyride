@@ -1,6 +1,9 @@
 import { GameObjects } from "phaser";
 
-export class PlayerSprite extends Phaser.GameObjects.Container {
+export class PlayerSprite
+    extends Phaser.GameObjects.Container
+    implements JetpackJoyride.IPlayerSprite
+{
     playerHead: Phaser.GameObjects.Sprite;
     playerBody: Phaser.GameObjects.Sprite;
     playerJetpack: Phaser.GameObjects.Sprite;

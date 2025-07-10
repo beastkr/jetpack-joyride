@@ -1,7 +1,10 @@
 import { GameManager } from "../../jetpack-joyride/GameManager";
 
-export abstract class MovingObject extends Phaser.Physics.Arcade.Sprite {
-    protected speed: number;
+export abstract class MovingObject
+    extends Phaser.Physics.Arcade.Sprite
+    implements JetpackJoyride.IMovingObject
+{
+    public speed: number;
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
         super(scene, x, y, texture);
         this.scene.physics.add.existing(this);

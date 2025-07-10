@@ -1,4 +1,5 @@
 import { Physics } from "phaser";
+import { Worker } from "../../../objects/moving-objects/worker/Worker";
 import { GameManager } from "../../GameManager";
 import { StartGameOverlay } from "../../UI/StartGameOverlay";
 import { GameScene } from "../GameScene";
@@ -12,6 +13,8 @@ export class PendingState extends GameState {
         super(scene);
         this.explodesound = this.scene.sound.add("smash");
         this.playingsound = this.scene.sound.add("menuBGM", { loop: true });
+        this.startOverlay = new StartGameOverlay(this.scene);
+        this.startOverlay.setVisible(false);
         this.explode = this.scene.add.particles(-15, 700, "dust", {
             angle: { min: -110, max: 110 }, // movement direction
             speed: 300,
@@ -23,9 +26,19 @@ export class PendingState extends GameState {
             quantity: 5,
             emitting: false,
         });
+        this.scene.tweens.add({
+            targets: this.startOverlay,
+            alpha: { from: 0, to: 1 },
+            duration: 1000,
+        });
     }
     public onEnter(): void {
-        if (!this.startOverlay) this.startOverlay = new StartGameOverlay(this.scene);
+        this.startOverlay.resettext();
+        this.scene.dieOnce = false;
+        this.scene.played = false;
+        this.scene.worker.forEach((element) => {
+            (element as Worker).rest();
+        });
         if (!this.playingsound.isPlaying) {
             this.playingsound.play();
         }
@@ -67,5 +80,6 @@ export class PendingState extends GameState {
         GameManager.speed = 300;
         (this.scene.player.body as Phaser.Physics.Arcade.Body).setVelocityX(0);
         GameManager.score = 0;
+        GameManager.coin = 0;
     }
 }

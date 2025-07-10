@@ -1,6 +1,6 @@
 import { GameScene } from "../GameScene";
 
-export abstract class GameState {
+export abstract class GameState implements JetpackJoyride.IGameState, JetpackJoyride.IState {
     protected scene: GameScene;
     constructor(scene: GameScene) {
         this.scene = scene;

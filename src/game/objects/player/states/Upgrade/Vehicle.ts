@@ -1,6 +1,6 @@
 import { Player } from "../../Player";
 
-export class Vehicle extends Phaser.GameObjects.Sprite {
+export class Vehicle extends Phaser.GameObjects.Sprite implements JetpackJoyride.IVehicle {
     player: Player;
     constructor(scene: Phaser.Scene, texture: string, player: Player) {
         super(scene, 0, 0, texture);

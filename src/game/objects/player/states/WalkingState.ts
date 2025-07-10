@@ -23,9 +23,8 @@ export class WalkingState extends PlayerState {
         this.runsound[1].play();
     }
 
-    public onUpdate(...args: any[]): void {
+    public onUpdate(_time: number, _delta: number): void {
         if (this.player.vehicle === null) {
-            console.log("aaa");
             this.player.controller.jetLaunch();
             if ((this.player.body as Physics.Arcade.Body).velocity.y < 0) {
                 this.player.switchState("flying");

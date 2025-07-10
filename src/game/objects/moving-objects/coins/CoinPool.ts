@@ -1,9 +1,9 @@
 import { GameScene } from "../../../jetpack-joyride/scenes/GameScene";
 import { Bigcoin } from "./Bigcoin";
 import { Coin } from "./Coin";
-import * as CoinTilePatterns from "./coin_tile_pattern";
+import { CointileLoader } from "./CoinTileLoader";
 
-export class CoinPool extends Phaser.GameObjects.Group {
+export class CoinPool extends Phaser.GameObjects.Group implements JetpackJoyride.ICoinPool {
     bigPool: Phaser.GameObjects.Group;
     constructor(scene: Phaser.Scene) {
         super(scene);
@@ -16,7 +16,7 @@ export class CoinPool extends Phaser.GameObjects.Group {
             classType: Bigcoin,
         });
         this.createMultiple({
-            frameQuantity: 300,
+            frameQuantity: 200,
             key: "coin",
             active: false,
             visible: false,
@@ -33,7 +33,7 @@ export class CoinPool extends Phaser.GameObjects.Group {
     }
 
     public test(scene: GameScene) {
-        const patterns = Object.values(CoinTilePatterns);
+        const patterns = CointileLoader.tile;
         const pattern = Phaser.Math.RND.pick(patterns); // random pick
         const y = Math.random() * 300 + 300;
         this.spawnFromPattern(scene, pattern, 2000, y, 32);
@@ -60,7 +60,7 @@ export class CoinPool extends Phaser.GameObjects.Group {
                     coin.enableBody(true, x, y, true, true).setVisible(true);
                     coin.using = true;
                     coin.move();
-                } else if (cell === 2) {
+                } else if (cell === 9) {
                     const bigCoin = this.bigPool.getFirstDead(false) as Bigcoin | null;
                     if (!bigCoin) return;
 

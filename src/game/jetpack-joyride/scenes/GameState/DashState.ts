@@ -29,6 +29,9 @@ export class DashState extends GameState {
         this.headstart_stop = this.scene.sound.add("headstart_stop");
     }
     public onEnter(): void {
+        this.scene.worker.forEach((element) => {
+            element.rest();
+        });
         this.headstart_start.play();
         this.scene.player.setY(500);
         (this.scene.player.body as Physics.Arcade.Body).setAllowGravity(false).setVelocity(0, 0);
@@ -48,6 +51,9 @@ export class DashState extends GameState {
         this.scene.bg.update();
         GameManager.speed -= (700 * delta) / 1000;
         if (GameManager.speed < 300) this.change();
+        // this.scene.worker.forEach((element) => {
+        //     element.update();
+        // });
     }
 
     public onExit(): void {

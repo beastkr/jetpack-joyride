@@ -1,6 +1,6 @@
 import { Zap } from "./Zap";
 
-export class ZapPool extends Phaser.GameObjects.Group {
+export class ZapPool extends Phaser.GameObjects.Group implements JetpackJoyride.IZapPool {
     constructor(scene: Phaser.Scene) {
         super(scene);
 
@@ -14,7 +14,7 @@ export class ZapPool extends Phaser.GameObjects.Group {
         });
     }
 
-    getZap(scene: Phaser.Scene, x: number, y: number): Zap {
+    getZap(scene: Phaser.Scene, x: number, y: number, inContainer: boolean = false): Zap {
         const zap = this.getFirstDead(false) as Zap;
         if (zap) {
             zap.setActive(true);
@@ -24,7 +24,7 @@ export class ZapPool extends Phaser.GameObjects.Group {
             return zap;
         } else {
             // fallback if pool is exhausted (optional)
-            const fallback = new Zap(scene, x, y, "");
+            const fallback = new Zap(scene, x, y, "", inContainer);
             this.add(fallback);
             return fallback;
         }
@@ -35,5 +35,11 @@ export class ZapPool extends Phaser.GameObjects.Group {
         zap.setVisible(false);
         zap.body?.stop();
         zap.body?.reset(-1000, -1000); // send offscreen
+    }
+
+    disableAll() {
+        this.getChildren().forEach((element) => {
+            this.returnZap(element as Zap);
+        });
     }
 }

@@ -56,5 +56,7 @@ export class WorkerSprite extends Phaser.GameObjects.Container {
         Animator.createAnim(this.scene, "walking_workerbody", "worker_body", 0, 3);
         Animator.createAnim(this.scene, "running_workerhead", "worker_head", 4, 7);
         Animator.createAnim(this.scene, "running_workerbody", "worker_body", 4, 7);
+        Animator.createAnim(this.scene, "dead_workerhead", "worker_head", 0, 0);
+        Animator.createAnim(this.scene, "dead_workerbody", "worker_body", 0, 0);
     }
 }

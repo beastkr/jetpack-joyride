@@ -1,6 +1,6 @@
 import { BackGround } from "./BackGround";
 
-export class BackGroundLoop {
+export class BackGroundLoop implements JetpackJoyride.IBackGroundLoop {
     backgrounds: BackGround[] = [];
     currentLast: BackGround;
     constructor(scene: Phaser.Scene) {

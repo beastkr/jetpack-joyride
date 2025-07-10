@@ -2,7 +2,7 @@ import { Physics } from "phaser";
 import { Player } from "./Player";
 import { GravitySuit } from "./states/Upgrade/GravitySuit";
 
-export class PlayerController {
+export class PlayerController implements JetpackJoyride.IPlayerController {
     player: Player;
     scene: Phaser.Scene;
     private spaceBar?: Phaser.Input.Keyboard.Key;
@@ -20,14 +20,16 @@ export class PlayerController {
         });
     }
 
-    public jetLaunch() {
-        if (this.player.isdead) return;
+    public jetLaunch(): boolean {
+        if (this.player.isdead) return false;
 
         const pointer = this.scene.input.activePointer;
         const isPressing = pointer.isDown || this.spaceBar?.isDown;
 
         const body = this.player.body as Physics.Arcade.Body;
         body.setAccelerationY(isPressing ? -3000 : 0);
+
+        return isPressing || false;
     }
 
     public gravChange(press: boolean): boolean {

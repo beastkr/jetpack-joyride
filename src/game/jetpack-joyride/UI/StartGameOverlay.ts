@@ -1,7 +1,10 @@
 import { GameManager } from "../GameManager";
 import { UiContainer } from "./UIContainter";
 
-export class StartGameOverlay extends Phaser.GameObjects.Container {
+export class StartGameOverlay
+    extends Phaser.GameObjects.Container
+    implements JetpackJoyride.IStartGameOverlay
+{
     logo: Phaser.GameObjects.Sprite;
     center: { x: number; y: number };
     text: Phaser.GameObjects.Text;
@@ -10,6 +13,10 @@ export class StartGameOverlay extends Phaser.GameObjects.Container {
     scoretext: Phaser.GameObjects.Text;
     coinLayout: UiContainer;
 
+    resettext() {
+        this.cointext.text = String(localStorage.getItem("coin"));
+        this.scoretext.text = String(localStorage.getItem("score"));
+    }
     constructor(scene: Phaser.Scene) {
         super(scene);
         this.center = {
@@ -22,6 +29,7 @@ export class StartGameOverlay extends Phaser.GameObjects.Container {
         this.addScoreText();
         this.addBox();
         this.scene.add.existing(this);
+        this.setDepth(10000);
     }
 
     private addCoinText() {

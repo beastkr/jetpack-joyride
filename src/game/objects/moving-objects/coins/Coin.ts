@@ -3,7 +3,7 @@ import { GameManager } from "../../../jetpack-joyride/GameManager";
 import { GameScene } from "../../../jetpack-joyride/scenes/GameScene";
 import { MovingObject } from "../MovingObject";
 
-export class Coin extends MovingObject {
+export class Coin extends MovingObject implements JetpackJoyride.ICoin {
     flipped: boolean = false;
     using: boolean = false;
     point: number = 1;

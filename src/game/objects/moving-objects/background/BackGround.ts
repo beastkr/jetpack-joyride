@@ -1,7 +1,7 @@
 import { GameManager } from "../../../jetpack-joyride/GameManager";
 import { MovingObject } from "../MovingObject";
 
-export class BackGround extends MovingObject {
+export class BackGround extends MovingObject implements JetpackJoyride.IBackGround {
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
         super(scene, x, y, texture);
     }

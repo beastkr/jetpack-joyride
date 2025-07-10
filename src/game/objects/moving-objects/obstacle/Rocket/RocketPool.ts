@@ -1,6 +1,6 @@
 import { Rocket } from "./Rocket";
 
-export class RocketPool extends Phaser.GameObjects.Group {
+export class RocketPool extends Phaser.GameObjects.Group implements JetpackJoyride.IRocketPool {
     constructor(scene: Phaser.Scene) {
         super(scene);
 

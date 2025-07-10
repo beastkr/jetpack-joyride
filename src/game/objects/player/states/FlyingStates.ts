@@ -4,11 +4,11 @@ import { Player } from "../Player";
 import { PlayerState } from "./PlayerState";
 
 export class FlyingState extends PlayerState {
-    private falling: boolean = false;
     private jetFX: Phaser.GameObjects.Sprite;
     private bulletParticle: Bullets;
     private shootingsound;
     private stopsound;
+    private down: boolean = false;
     constructor(player: Player) {
         super(player);
         if (!this.bulletParticle) this.bulletParticle = new Bullets(this.player.scene, this.player);
@@ -24,16 +24,20 @@ export class FlyingState extends PlayerState {
             loop: -1,
             duration: 100,
         });
-        this.flyup();
     }
-    public onUpdate(...args: any[]): void {
-        this.player.controller.jetLaunch();
-        this.checkFall();
-        if (!this.falling) {
-            this.flyup();
-        }
+    public onUpdate(time: number, delta: number): void {
+        const isPressJetLaunch = this.player.controller.jetLaunch();
+
+        // Update bullet system with input state
+        this.bulletParticle.update(time, delta, isPressJetLaunch);
         this.bulletParticle.kill();
-        // console.log(this.player.y, this.bulletParticle.y);
+
+        // Handle animations and effects based on input
+        if (isPressJetLaunch) {
+            this.flyup();
+        } else {
+            this.flydown();
+        }
     }
 
     private setFXVisible(visible: boolean) {
@@ -43,14 +47,23 @@ export class FlyingState extends PlayerState {
         if (!this.shootingsound.isPlaying) this.shootingsound.play();
         this.setFXVisible(true);
         Animator.playAnim(this.player.playerSprite, "flyup");
-        // this.bulletParticle.emitParticleAt(this.player.x, this.player.y, 1);
-
         this.bulletParticle.start();
+        this.down = true;
+    }
+
+    private flydown() {
+        this.setFXVisible(false);
+        if (this.down) Animator.playAnim(this.player.playerSprite, "flydown");
+        this.down = false;
+        this.bulletParticle.stop();
+        if (!this.stopsound.isPlaying) this.stopsound.play();
+        this.shootingsound.stop();
     }
     public onExit(): void {
         this.setFXVisible(false);
         (this.player.body as Phaser.Physics.Arcade.Body).setVelocityY(0);
         this.bulletParticle.stop();
+        this.bulletParticle.disableAll(); // Clean up all active bullets
         this.stopsound.stop();
         this.shootingsound.stop();
     }
@@ -90,18 +103,5 @@ export class FlyingState extends PlayerState {
     private jetFXAnim() {
         Animator.createAnim(this.player.scene, "flyup_jetfx", "jet_fx", 0, 3, 24);
         Animator.createAnim(this.player.scene, "flyup_bulletfx", "bullet_fx", 0, 3, 24);
-    }
-
-    private checkFall() {
-        const body = this.player.body as Phaser.Physics.Arcade.Body;
-        if (body.velocity.y > 50 && !this.falling) {
-            this.falling = true;
-            Animator.playAnim(this.player.playerSprite, "flydown");
-            this.setFXVisible(false);
-            this.bulletParticle.stop();
-            this.stopsound.play();
-            this.shootingsound.stop();
-        }
-        if (body.velocity.y <= 50) this.falling = false;
     }
 }

@@ -1,3 +1,4 @@
+// GameManager implements IGameManager interface through static methods
 export class GameManager {
     static speed: number = 300;
     static coin: number = 0;

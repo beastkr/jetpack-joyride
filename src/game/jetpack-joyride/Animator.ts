@@ -1,3 +1,4 @@
+// Animator implements IAnimator interface through static methods
 export class Animator {
     static createAnim(
         scene: Phaser.Scene,

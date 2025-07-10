@@ -1,23 +1,27 @@
 import { PlayerController } from "./PlayerController";
 import { PlayerSprite } from "./PlayerSprite";
+import { PlayerStateMachine } from "./PlayerStateMachine";
 import { Dead } from "./states/Dead";
 import { DeadByRocket } from "./states/DeadByRocket";
 import { DeadByZap } from "./states/DeadByZap";
 import { FlyingState } from "./states/FlyingStates";
 import { HoldingState } from "./states/HoldingState";
 import { PlayerState } from "./states/PlayerState";
+// import { PlayerState } from "./states/PlayerState";
 import { Reborn } from "./states/Reborn";
 import { UpgradeState } from "./states/Upgrade/UpgradeState";
 import { Vehicle } from "./states/Upgrade/Vehicle";
 import { WalkingState } from "./states/WalkingState";
 
-export class Player extends Phaser.GameObjects.Container {
+export class Player extends Phaser.GameObjects.Container implements JetpackJoyride.IPlayer {
     isdead: boolean = false;
     shadowSprite: Phaser.GameObjects.Sprite;
     playerSprite: PlayerSprite;
+    private stateMachine: PlayerStateMachine;
+    // Legacy properties for backward compatibility
     currentState: PlayerState;
-    controller: PlayerController;
     states: { [key: string]: PlayerState };
+    controller: PlayerController;
     onGround: boolean = false;
     vehicle: Vehicle | null;
     constructor(scene: Phaser.Scene, x: number, y: number) {
@@ -25,6 +29,7 @@ export class Player extends Phaser.GameObjects.Container {
         this.setupBody();
         this.setUpSprite();
         this.vehicle = null;
+        this.stateMachine = new PlayerStateMachine();
         this.stateInit();
         this.controller = new PlayerController(this.scene, this);
         this.scene.add.existing(this);
@@ -32,24 +37,40 @@ export class Player extends Phaser.GameObjects.Container {
         this.scale = 0.5;
         this.setDepth(111);
     }
+    public rest() {
+        this.setPosition(this.x, this.y - 10);
+        this.setVisible(false);
+        this.switchState("hold");
+        this.playerSprite.showAll();
+        this.isdead = false;
+    }
 
     public update(time: number, delta: number): void {
         this.onGround = (this.body as Phaser.Physics.Arcade.Body).blocked.down;
+        this.shadowSprite.setVisible(this.visible);
         // console.log(this.currentState);
         super.update(time, delta);
         if (this.body?.velocity.y != 0) this.onGround = false;
         //console.log(this.currentState);
-        if (this.currentState) this.currentState.onUpdate(time, delta);
+
+        // Update state machine
+        this.stateMachine.update(time, delta);
+
+        // Update legacy currentState for backward compatibility
+        this.currentState = this.stateMachine.currentState!;
+
         this.shadowSprite.x = this.x;
         this.shadowSprite.scale = (this.y + 300) / 350;
     }
 
     public switchState(key: string) {
         if (key == "walking" && this.isdead) return;
-        if (this.currentState === this.states[key]) return;
-        if (this.currentState) this.currentState.onExit();
-        this.currentState = this.states[key];
-        this.currentState.onEnter();
+
+        // Use state machine for state switching
+        this.stateMachine.switchState(key);
+
+        // Update legacy currentState for backward compatibility
+        this.currentState = this.stateMachine.currentState!;
     }
 
     private setUpSprite() {
@@ -80,5 +101,10 @@ export class Player extends Phaser.GameObjects.Container {
             hold: new HoldingState(this),
             reborn: new Reborn(this),
         };
+
+        // Add states to state machine
+        Object.entries(this.states).forEach(([key, state]) => {
+            this.stateMachine.addState(key, state);
+        });
     }
 }

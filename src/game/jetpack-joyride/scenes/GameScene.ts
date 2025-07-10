@@ -2,27 +2,37 @@ import { BackGroundLoop } from "../../objects/moving-objects/background/BackGrou
 import { CoinPool } from "../../objects/moving-objects/coins/CoinPool";
 import { ElecPool } from "../../objects/moving-objects/obstacle/Elec/ElecPool";
 import { RocketPool } from "../../objects/moving-objects/obstacle/Rocket/RocketPool";
+import { Worker } from "../../objects/moving-objects/worker/Worker";
 import { Player } from "../../objects/player/Player";
 import { GravitySuit } from "../../objects/player/states/Upgrade/GravitySuit";
 import { GameManager } from "../GameManager";
+import { StartGameOverlay } from "../UI/StartGameOverlay";
 import { DashState } from "./GameState/DashState";
 import { GameState } from "./GameState/GameState";
+import { GameStateMachine } from "./GameState/GameStateMachine";
+import { OverState } from "./GameState/OverState";
 import { PendingState } from "./GameState/PendingState";
 import { PlayingState } from "./GameState/PlayingState";
 
-export class GameScene extends Phaser.Scene {
+export class GameScene extends Phaser.Scene implements JetpackJoyride.IGameScene {
+    worker: Worker[] = [];
     played: boolean = false;
     bg: BackGroundLoop;
     player: Player;
     progress: number = 0;
     bot: Phaser.GameObjects.Rectangle;
     coinManager: CoinPool;
+    private stateMachine: GameStateMachine;
+    // Legacy properties for backward compatibility
     currentState: GameState;
     states: { [key: string]: GameState };
     zapManager: ElecPool;
     rockets: RocketPool;
+    startOverlay: StartGameOverlay;
+    dieOnce: boolean = false;
     constructor() {
         super("GameScene");
+        this.stateMachine = new GameStateMachine();
     }
     preload() {
         this.LoadBodySprite();
@@ -47,22 +57,32 @@ export class GameScene extends Phaser.Scene {
 
         this.bg = new BackGroundLoop(this);
         this.player = new Player(this, -500, 500);
+
         this.createBot();
         this.createTop();
         this.coinManager = new CoinPool(this);
-
+        for (var i = 0; i < 5; i++) this.worker.push(new Worker(this, 2000, 600));
+        this.worker.forEach((element) => {
+            (element as Worker).rest();
+        });
         this.stateInit();
         this.zapManager = new ElecPool(this);
         this.rockets = new RocketPool(this);
+        this.switchState("pending");
     }
     public switchState(key: string) {
-        if (this.currentState === this.states[key]) return;
-        if (this.currentState) this.currentState.onExit();
-        this.currentState = this.states[key];
-        this.currentState.onEnter();
+        // Use state machine for state switching
+        this.stateMachine.switchState(key);
+
+        // Update legacy currentState for backward compatibility
+        this.currentState = this.stateMachine.currentState!;
     }
     update(time: number, delta: number) {
-        this.currentState.onUpdate(time, delta);
+        // Update state machine
+        this.stateMachine.update(time, delta);
+
+        // Update legacy currentState for backward compatibility
+        this.currentState = this.stateMachine.currentState!;
     }
 
     private createBot() {
@@ -93,8 +113,13 @@ export class GameScene extends Phaser.Scene {
             pending: new PendingState(this),
             playing: new PlayingState(this),
             dashing: new DashState(this),
+            over: new OverState(this),
         };
-        this.switchState("pending");
+
+        // Add states to state machine
+        Object.entries(this.states).forEach(([key, state]) => {
+            this.stateMachine.addState(key, state);
+        });
     }
 
     // LOADING FUNCTION ///
@@ -143,6 +168,7 @@ export class GameScene extends Phaser.Scene {
         });
     }
     private LoadCoin() {
+        // this.load.json("tile", "assets/tile/coin1.json");
         this.load.spritesheet("coin", "assets/Entities/coin_sheet.png", {
             frameWidth: 32,
             frameHeight: 32,
@@ -185,6 +211,7 @@ export class GameScene extends Phaser.Scene {
         this.load.image("containerFiller", "assets/UI/container/filler.png");
         this.load.image("containerLeft", "assets/UI/container/left.png");
         this.load.image("containerTop", "assets/UI/container/top.png");
+        this.load.image("revive", "assets/new/reviveIcon_TVOS.png");
     }
     private LoadAudio() {
         this.load.audio("shooting", "assets/SFX/Jetpack/jetpack_fireLP.mp3");

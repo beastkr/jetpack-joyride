@@ -1,4 +1,5 @@
 import { Scene } from "phaser";
+import { CointileLoader } from "../../objects/moving-objects/coins/CoinTileLoader";
 import { GameManager } from "../GameManager";
 
 export class Preloader extends Scene {
@@ -32,6 +33,7 @@ export class Preloader extends Scene {
         // localStorage.setItem("coin", "10000000");
         //  For example, you can define global animations here, so we can use them in other scenes.
         GameManager.init();
+        CointileLoader.init();
 
         //  Move to the MainMenu. You could also swap this for a Scene Transition, such as a camera fade.
         this.scene.start("MainMenu");

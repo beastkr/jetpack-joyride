@@ -8,7 +8,7 @@ export class Dead extends PlayerState {
     progress: number = 0;
     public onEnter(): void {
         Animator.playAnim(this.player.playerSprite, "dead");
-        GameManager.speed = 200;
+        GameManager.speed = 300;
         this.player.playerSprite.setRotation(Phaser.Math.DegToRad(-90));
         this.player.playerSprite.y += 50;
         (this.player.body as Physics.Arcade.Body).setAcceleration(0, 0);
@@ -17,11 +17,11 @@ export class Dead extends PlayerState {
     }
     public onUpdate(...args: any[]): void {
         if (GameManager.speed < 100) {
-            this.player.scene.scene.restart();
+            (this.player.scene as GameScene).switchState("over");
         }
     }
     public onExit(): void {
-        this.player.playerSprite.y -= 30;
+        this.player.playerSprite.y -= 50;
         this.player.playerSprite.setRotation(Phaser.Math.DegToRad(0));
     }
     protected animInit(): void {
