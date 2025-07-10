@@ -1,0 +1,55 @@
+{ "compressionlevel":-1,
+ "height":2,
+ "infinite":false,
+ "layers":[
+        {
+         "data":[15, 16, 15, 16, 15, 16, 15, 16, 15, 16,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         "height":2,
+         "id":3,
+         "name":"water",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":10,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[1, 2, 9, 9, 9, 9, 9, 9, 3, 4,
+            5, 6, 13, 13, 13, 13, 13, 13, 7, 8],
+         "height":2,
+         "id":2,
+         "name":"tube",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":10,
+         "x":0,
+         "y":0
+        }],
+ "nextlayerid":4,
+ "nextobjectid":1,
+ "orientation":"orthogonal",
+ "renderorder":"right-down",
+ "tiledversion":"1.11.2",
+ "tileheight":512,
+ "tilesets":[
+        {
+         "columns":4,
+         "firstgid":1,
+         "image":"..\/atlas\/aquarium_assets.png",
+         "imageheight":2050,
+         "imagewidth":2324,
+         "margin":0,
+         "name":"aquarium_assets",
+         "spacing":0,
+         "tilecount":16,
+         "tileheight":512,
+         "tilewidth":512
+        }],
+ "tilewidth":512,
+ "type":"map",
+ "version":"1.10",
+ "width":10
+}

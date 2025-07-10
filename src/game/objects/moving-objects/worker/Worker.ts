@@ -29,14 +29,10 @@ export class Worker extends Phaser.GameObjects.Container implements JetpackJoyri
         (this.body as Phaser.Physics.Arcade.Body).setSize(70, 128).setOffset(0, -64);
         this.scene.physics.add.collider(this, (this.scene as GameScene).bot);
 
-        // Setup bullet collision detection
-        this.setupBulletCollisions();
+        // this.setupBulletCollisions();
     }
 
-    private setupBulletCollisions() {
-        // This will be called by the bullet system when checking collisions
-        // We'll add a method to check if this worker was hit by bullets
-    }
+    // private setupBulletCollisions() {}
     public move(): void {
         if (this.dead || (this.scene as GameScene).currentState instanceof DashState) {
             // Dead workers fall with gravity only
@@ -67,7 +63,7 @@ export class Worker extends Phaser.GameObjects.Container implements JetpackJoyri
         this.workerSprite.start();
         this.speed = Phaser.Math.Between(100, 300);
         if (this.offset < 0)
-            this.speed = Phaser.Math.Between(100 + GameManager.speed, GameManager.speed + 300);
+            this.speed = Phaser.Math.Between(300 + GameManager.speed, GameManager.speed + 400);
     }
 
     update() {

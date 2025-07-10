@@ -48,7 +48,7 @@ export class DashState extends GameState {
     }
     public onUpdate(time: number, delta: number): void {
         GameManager.score += Math.round((GameManager.speed * delta) / 1000);
-        this.scene.bg.update();
+        // this.scene.bg.update();
         GameManager.speed -= (700 * delta) / 1000;
         if (GameManager.speed < 300) this.change();
         // this.scene.worker.forEach((element) => {

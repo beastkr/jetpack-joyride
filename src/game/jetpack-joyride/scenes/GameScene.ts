@@ -1,4 +1,4 @@
-import { BackGroundLoop } from "../../objects/moving-objects/background/BackGroundLoop";
+import { BGLoop } from "../../objects/moving-objects/background/BGLoop";
 import { CoinPool } from "../../objects/moving-objects/coins/CoinPool";
 import { ElecPool } from "../../objects/moving-objects/obstacle/Elec/ElecPool";
 import { RocketPool } from "../../objects/moving-objects/obstacle/Rocket/RocketPool";
@@ -17,12 +17,12 @@ import { PlayingState } from "./GameState/PlayingState";
 export class GameScene extends Phaser.Scene implements JetpackJoyride.IGameScene {
     worker: Worker[] = [];
     played: boolean = false;
-    bg: BackGroundLoop;
     player: Player;
     progress: number = 0;
     bot: Phaser.GameObjects.Rectangle;
     coinManager: CoinPool;
     private stateMachine: GameStateMachine;
+    bg: BGLoop;
     // Legacy properties for backward compatibility
     currentState: GameState;
     states: { [key: string]: GameState };
@@ -45,6 +45,7 @@ export class GameScene extends Phaser.Scene implements JetpackJoyride.IGameScene
         this.LoadUpgrade();
         this.LoadUpgradeComponents();
         this.LoadParticle();
+        this.LoadBackGround();
         this.load.image("room1", "assets/Levels/Room1/room1_1.png");
         this.load.image("shadow", "assets/Characters/effect_shadow.png");
         this.load.image("bullet", "assets/Characters/Effects/effect_smgbullet.png");
@@ -54,8 +55,8 @@ export class GameScene extends Phaser.Scene implements JetpackJoyride.IGameScene
         this.played = false;
         this.cameras.main.setViewport(0, -128, 1720, 1080);
         GameManager.speed = 300;
+        this.bg = new BGLoop(this);
 
-        this.bg = new BackGroundLoop(this);
         this.player = new Player(this, -500, 500);
 
         this.createBot();
@@ -80,7 +81,7 @@ export class GameScene extends Phaser.Scene implements JetpackJoyride.IGameScene
     update(time: number, delta: number) {
         // Update state machine
         this.stateMachine.update(time, delta);
-
+        if (this.bg) this.bg.update(time, delta);
         // Update legacy currentState for backward compatibility
         this.currentState = this.stateMachine.currentState!;
     }
@@ -123,6 +124,15 @@ export class GameScene extends Phaser.Scene implements JetpackJoyride.IGameScene
     }
 
     // LOADING FUNCTION ///
+
+    private LoadBackGround() {
+        this.load.image("aquarium", "assets/atlas/aquarium_assets.png");
+        this.load.tilemapTiledJSON("aquarium_map", "assets/tile/aquariumtile.json");
+        this.load.image("hall", "assets/atlas/warehouse_assets.png");
+        this.load.tilemapTiledJSON("hall_map", "assets/tile/hall.json");
+        this.load.image("room1", "assets/Levels/Room1/room1_1.png");
+        this.load.tilemapTiledJSON("room1_map", "assets/tile/window.json");
+    }
 
     private LoadUpgrade() {
         this.load.spritesheet("upgrade", "assets/Pickup/pickup.png", {
@@ -168,7 +178,12 @@ export class GameScene extends Phaser.Scene implements JetpackJoyride.IGameScene
         });
     }
     private LoadCoin() {
-        // this.load.json("tile", "assets/tile/coin1.json");
+        // Load coin pattern JSON files
+        this.load.json("coin1", "assets/tile/coin1.json");
+        this.load.json("heart", "assets/tile/heart.json");
+        this.load.json("dang", "assets/tile/dang.json");
+        this.load.json("star", "assets/tile/star.json");
+
         this.load.spritesheet("coin", "assets/Entities/coin_sheet.png", {
             frameWidth: 32,
             frameHeight: 32,

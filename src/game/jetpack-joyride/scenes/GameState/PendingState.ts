@@ -68,9 +68,9 @@ export class PendingState extends GameState {
                 },
             });
         });
+        this.scene.bg.rest();
     }
     public onUpdate(time: number, delta: number): void {
-        this.scene.bg.update();
         this.startOverlay.update();
         if (this.scene.player.x >= 300) this.scene.switchState("playing");
     }

@@ -82,7 +82,7 @@ export class PlayingState extends GameState {
         this.scene.zapManager.update();
         this.scoretext.text = String(GameManager.score);
         this.cointext.text = String(GameManager.coin);
-        this.scene.bg.update();
+
         this.scene.player.update(time, delta);
         this.scene.progress += delta;
         this.progress += delta;

@@ -195,14 +195,13 @@ declare namespace JetpackJoyride {
 
     // ===== BACKGROUND INTERFACES =====
 
-    interface IBackGround extends IMovingObject {
-        checkReset(farestPosX: IBackGround): boolean;
-    }
-
-    interface IBackGroundLoop {
-        backgrounds: IBackGround[];
-        currentLast: IBackGround;
-        update(): void;
+    interface IBackGround {
+        scene: Phaser.Scene;
+        map: Phaser.Tilemaps.Tilemap;
+        maplayer: Phaser.Tilemaps.TilemapLayer;
+        mapBG: Phaser.Tilemaps.TilemapLayer;
+        update(time: number, delta: number): void;
+        moveTo(x: number): void;
     }
 
     interface IGameScene {

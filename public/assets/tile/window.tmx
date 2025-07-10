@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="20" height="4" tilewidth="256" tileheight="256" infinite="0" nextlayerid="3" nextobjectid="1">
+ <editorsettings>
+  <export target="window.json" format="json"/>
+ </editorsettings>
+ <tileset firstgid="1" name="room1_1" tilewidth="512" tileheight="512" tilecount="4" columns="2">
+  <image source="../Levels/Room1/room1_1.png" width="1024" height="1024"/>
+ </tileset>
+ <tileset firstgid="5" name="room1FG_2_TVOS" tilewidth="512" tileheight="512" tilecount="4" columns="2">
+  <image source="../Levels/Room1/room1FG_2_TVOS.png" width="1024" height="1024"/>
+ </tileset>
+ <tileset firstgid="9" name="room1_assets" tilewidth="256" tileheight="256" tilecount="12" columns="4">
+  <image source="../atlas/room1_assets.png" width="1029" height="996"/>
+ </tileset>
+ <layer id="1" name="front" width="20" height="4">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+1,0,2,2,1,0,2,1,0,2,1,0,2,1,0,2,1,0,2,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+3,0,4,4,3,0,4,3,0,4,3,0,4,3,0,4,3,0,4,0
+</data>
+ </layer>
+</map>
