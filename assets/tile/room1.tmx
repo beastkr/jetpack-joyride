@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="3" height="2" tilewidth="512" tileheight="512" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" name="titleFG_1_TVOS" tilewidth="512" tileheight="512" tilecount="4" columns="2">
+  <image source="../Levels/Title/titleFG_1_TVOS.png" width="1024" height="1024"/>
+ </tileset>
+ <tileset firstgid="5" name="titleFG_2_TVOS" tilewidth="512" tileheight="512" tilecount="4" columns="2">
+  <image source="../Levels/Title/titleFG_2_TVOS.png" width="1024" height="1024"/>
+ </tileset>
+ <layer id="1" name="Tile Layer 1" width="3" height="2">
+  <data encoding="csv">
+1,2,5,
+3,4,7
+</data>
+ </layer>
+</map>

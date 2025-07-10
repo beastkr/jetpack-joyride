@@ -1,0 +1,55 @@
+{ "compressionlevel":-1,
+ "height":2,
+ "infinite":false,
+ "layers":[
+        {
+         "data":[18, 18, 18, 18, 18, 18, 18, 18, 18, 18,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         "height":2,
+         "id":2,
+         "name":"back",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":10,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[1, 2, 21, 21, 21, 21, 21, 20, 20, 4,
+            6, 7, 17, 17, 17, 17, 17, 10, 16, 9],
+         "height":2,
+         "id":1,
+         "name":"front",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":10,
+         "x":0,
+         "y":0
+        }],
+ "nextlayerid":3,
+ "nextobjectid":1,
+ "orientation":"orthogonal",
+ "renderorder":"right-down",
+ "tiledversion":"1.11.2",
+ "tileheight":512,
+ "tilesets":[
+        {
+         "columns":5,
+         "firstgid":1,
+         "image":"..\/atlas\/warehouse_assets.png",
+         "imageheight":2563,
+         "imagewidth":2691,
+         "margin":0,
+         "name":"warehouse_assets",
+         "spacing":0,
+         "tilecount":25,
+         "tileheight":512,
+         "tilewidth":512
+        }],
+ "tilewidth":512,
+ "type":"map",
+ "version":"1.10",
+ "width":10
+}

@@ -1,0 +1,55 @@
+{ "compressionlevel":-1,
+ "height":2,
+ "infinite":false,
+ "layers":[
+        {
+         "data":[1, 2, 5,
+            3, 4, 7],
+         "height":2,
+         "id":1,
+         "name":"Tile Layer 1",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":3,
+         "x":0,
+         "y":0
+        }],
+ "nextlayerid":2,
+ "nextobjectid":1,
+ "orientation":"orthogonal",
+ "renderorder":"right-down",
+ "tiledversion":"1.11.2",
+ "tileheight":512,
+ "tilesets":[
+        {
+         "columns":2,
+         "firstgid":1,
+         "image":"..\/Levels\/Title\/titleFG_1_TVOS.png",
+         "imageheight":1024,
+         "imagewidth":1024,
+         "margin":0,
+         "name":"titleFG_1_TVOS",
+         "spacing":0,
+         "tilecount":4,
+         "tileheight":512,
+         "tilewidth":512
+        }, 
+        {
+         "columns":2,
+         "firstgid":5,
+         "image":"..\/Levels\/Title\/titleFG_2_TVOS.png",
+         "imageheight":1024,
+         "imagewidth":1024,
+         "margin":0,
+         "name":"titleFG_2_TVOS",
+         "spacing":0,
+         "tilecount":4,
+         "tileheight":512,
+         "tilewidth":512
+        }],
+ "tilewidth":512,
+ "type":"map",
+ "version":"1.10",
+ "width":3
+}

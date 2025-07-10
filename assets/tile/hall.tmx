@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="10" height="2" tilewidth="512" tileheight="512" infinite="0" nextlayerid="3" nextobjectid="1">
+ <tileset firstgid="1" name="warehouse_assets" tilewidth="512" tileheight="512" tilecount="25" columns="5">
+  <image source="../atlas/warehouse_assets.png" width="2691" height="2563"/>
+ </tileset>
+ <layer id="2" name="back" width="10" height="2">
+  <data encoding="csv">
+18,18,18,18,18,18,18,18,18,18,
+0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="1" name="front" width="10" height="2">
+  <data encoding="csv">
+1,2,21,21,21,21,21,20,20,4,
+6,7,17,17,17,17,17,10,16,9
+</data>
+ </layer>
+</map>
