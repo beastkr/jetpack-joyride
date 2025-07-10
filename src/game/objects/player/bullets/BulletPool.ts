@@ -21,11 +21,12 @@ export class BulletPool extends Phaser.GameObjects.Group implements JetpackJoyri
             bullet.fire(x, y);
             return bullet;
         } else {
-            // Pool exhausted, create new bullet (fallback)
-            const newBullet = new Bullet(this.scene, x, y);
-            this.add(newBullet);
-            newBullet.fire(x, y);
-            return newBullet;
+            return null;
+            // // Pool exhausted, create new bullet (fallback)
+            // const newBullet = new Bullet(this.scene, x, y);
+            // this.add(newBullet);
+            // newBullet.fire(x, y);
+            // return newBullet;
         }
     }
 

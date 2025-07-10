@@ -24,11 +24,12 @@ export class BulletShellPool
             shell.eject(x, y);
             return shell;
         } else {
-            // Pool exhausted, create new shell (fallback)
-            const newShell = new BulletShell(this.scene, x, y);
-            this.add(newShell);
-            newShell.eject(x, y);
-            return newShell;
+            return null;
+            // // Pool exhausted, create new shell (fallback)
+            // const newShell = new BulletShell(this.scene, x, y);
+            // this.add(newShell);
+            // newShell.eject(x, y);
+            // return newShell;
         }
     }
 

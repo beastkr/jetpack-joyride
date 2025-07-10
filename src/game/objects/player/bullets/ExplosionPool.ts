@@ -25,10 +25,11 @@ export class ExplosionPool
             return explosion;
         } else {
             // Pool exhausted, create new explosion (fallback)
-            const newExplosion = new Explosion(this.scene, x, y);
-            this.add(newExplosion);
-            newExplosion.explode(x, y);
-            return newExplosion;
+            // const newExplosion = new Explosion(this.scene, x, y);
+            // this.add(newExplosion);
+            // newExplosion.explode(x, y);
+            // return newExplosion;
+            return null;
         }
     }
 

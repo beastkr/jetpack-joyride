@@ -1,7 +1,4 @@
-export class UiContainer
-    extends Phaser.GameObjects.Container
-    implements JetpackJoyride.IUiContainer
-{
+export class UiContainer extends Phaser.GameObjects.Container {
     border: Phaser.GameObjects.Sprite[][] = [[]];
     constructor(scene: Phaser.Scene, x: number, y: number, sizeX: number, sizeY: number) {
         super(scene, x, y);

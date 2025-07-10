@@ -16,7 +16,7 @@ export class CoinPool extends Phaser.GameObjects.Group implements JetpackJoyride
             classType: Bigcoin,
         });
         this.createMultiple({
-            frameQuantity: 200,
+            frameQuantity: 100,
             key: "coin",
             active: false,
             visible: false,

@@ -26,7 +26,6 @@ export class BulletShell
         this.setVisible(true);
         this.startTime = this.scene.time.now;
 
-        // Set shell physics (similar to original particle system)
         const rotation = Phaser.Math.Between(0, 360);
 
         this.setVelocity(-100, 300);
@@ -40,13 +39,11 @@ export class BulletShell
 
         if (!this.active) return;
 
-        // Check lifespan
         if (time - this.startTime > this.lifespan) {
             this.deactivate();
             return;
         }
 
-        // Check if shell is far off-screen
         if (this.x < -500 || this.y > this.scene.cameras.main.height + 200) {
             this.deactivate();
         }
