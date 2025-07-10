@@ -46,5 +46,8 @@ export class BGLoop {
         this.currentBG = this.BeginBG;
         this.curr = -1;
         this.prevBG = null;
+        this.BGList.forEach((element) => {
+            (element as JetpackJoyride.IBackGround).moveTo(-10000);
+        });
     }
 }
