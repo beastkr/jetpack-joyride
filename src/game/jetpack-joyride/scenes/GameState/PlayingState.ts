@@ -181,7 +181,7 @@ export class PlayingState extends GameState {
         this.scene.worker.forEach((element) => {
             element.rest();
         });
-        this.upgrade.setPosition(Phaser.Math.Between(5000, 10000), 500);
+        this.upgrade.setPosition(Phaser.Math.Between(5000, 10000), 500).setVelocityX(0);
         this.playingsound.stop();
         this.scoreBox.setVisible(false);
         this.scene.coinManager.disableAll();

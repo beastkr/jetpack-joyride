@@ -83,7 +83,7 @@ export class Rocket extends Physics.Arcade.Sprite {
         this.explode.setPosition(p.x, p.y);
         this.explode.setVisible(true);
         Animator.play(this.explode, "explode");
-        this.warning.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
+        this.explode.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
             this.explode.setVisible(false);
         });
         this.reset();

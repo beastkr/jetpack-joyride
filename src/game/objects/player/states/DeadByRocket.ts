@@ -13,6 +13,7 @@ export class DeadByRocket extends PlayerState {
             (this.player.scene as GameScene).zapManager.disableAll();
             (this.player.scene as GameScene).rockets.disableAll();
             (this.player.scene as GameScene).lasers.rest();
+            (this.player.scene as GameScene).coinManager.disableAll();
             return;
         }
         this.progress = 0;
