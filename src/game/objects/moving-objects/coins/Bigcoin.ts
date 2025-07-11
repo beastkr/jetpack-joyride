@@ -8,9 +8,8 @@ export class Bigcoin extends Coin {
         this.bigCoinAnimInit();
         this.point = 2;
     }
-    public override preUpdate(time: number, delta: number) {
+    public override update() {
         if (!this.visible) return;
-        this.move();
         Animator.play(this, "big_coin_flip");
         this.flipped = true;
         if (this.x <= -20) {

@@ -23,7 +23,14 @@ export class CoinPool extends Phaser.GameObjects.Group implements JetpackJoyride
             classType: Coin,
         });
     }
-    public update() {}
+    public update() {
+        this.getChildren().forEach((element) => {
+            element.update();
+        });
+        this.bigPool.getChildren().forEach((element) => {
+            element.update();
+        });
+    }
 
     public test(scene: GameScene) {
         const patterns = CointileLoader.tile;
