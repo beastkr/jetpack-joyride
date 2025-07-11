@@ -25,6 +25,7 @@ export class OverState extends GameState {
         this.ensureRescueOverlay();
         this.showRescueOverlay();
         this.animateRescueOverlay();
+        GameManager.speed = 0;
     }
 
     private transitionToPending(delay: number = 100): void {

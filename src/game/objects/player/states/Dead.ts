@@ -16,7 +16,7 @@ export class Dead extends PlayerState {
         (this.player.scene as GameScene).rockets.disableAll();
     }
     public onUpdate(...args: any[]): void {
-        if (GameManager.speed < 100) {
+        if (GameManager.speed < 230) {
             (this.player.scene as GameScene).switchState("over");
         }
     }
