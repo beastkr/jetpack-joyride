@@ -4,7 +4,6 @@ export class CointileLoader {
     static init() {
         if (!this.tile) {
             this.tile = [];
-            this.tile.push([[1, 9]]);
         }
         Tile.layers.forEach((element) => {
             let tileTemp = new Array();
