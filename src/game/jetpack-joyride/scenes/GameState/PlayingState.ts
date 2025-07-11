@@ -80,6 +80,7 @@ export class PlayingState extends GameState {
         this.upgrade.move();
         this.scene.coinManager.update();
         this.scene.zapManager.update();
+        this.scene.rockets.update(time, delta);
         this.scoretext.text = String(GameManager.score);
         this.cointext.text = String(GameManager.coin);
 
@@ -136,8 +137,8 @@ export class PlayingState extends GameState {
             const lenx = Phaser.Math.Between(100, 300);
             const leny =
                 Phaser.Math.Between(0, 1) === 0
-                    ? Phaser.Math.Between(-200, -100) // Going up
-                    : Phaser.Math.Between(100, 200); // Going down
+                    ? Phaser.Math.Between(-150, -100) // Going up
+                    : Phaser.Math.Between(100, 150); // Going down
             return this.scene.zapManager.getElec(
                 this.scene,
                 2000,
@@ -149,7 +150,7 @@ export class PlayingState extends GameState {
             );
         } else if (t == 1) {
             // Horizontal Elec only
-            const lenx = Phaser.Math.Between(200, 400);
+            const lenx = Phaser.Math.Between(100, 200);
             return this.scene.zapManager.getElec(
                 this.scene,
                 2000,
@@ -163,8 +164,8 @@ export class PlayingState extends GameState {
             // Vertical Elec only
             const leny =
                 Phaser.Math.Between(0, 1) === 0
-                    ? Phaser.Math.Between(-300, -150) // Going up
-                    : Phaser.Math.Between(150, 300); // Going down
+                    ? Phaser.Math.Between(-100, -200) // Going up
+                    : Phaser.Math.Between(100, 200); // Going down
             return this.scene.zapManager.getElec(
                 this.scene,
                 2000,

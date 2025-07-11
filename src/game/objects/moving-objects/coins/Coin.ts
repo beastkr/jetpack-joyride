@@ -19,9 +19,11 @@ export class Coin extends MovingObject implements JetpackJoyride.ICoin {
             if (!this.coinsound.isPlaying) this.coinsound.play();
         });
     }
-    public update() {
+    public preUpdate(time: number, delta: number) {
+        if (!this.visible) return;
+        super.preUpdate(time, delta);
         this.move();
-        if (this.x <= 1000 && !this.flipped && this.using) {
+        if (!this.flipped && this.x <= 1000 && this.using) {
             Animator.play(this, "coin_flip");
             this.flipped = true;
         }
@@ -31,7 +33,6 @@ export class Coin extends MovingObject implements JetpackJoyride.ICoin {
     }
 
     public move(): void {
-        this.speed = GameManager.speed;
         this.setVelocityX(-this.speed);
     }
     protected CoinAnimInit() {
@@ -44,6 +45,16 @@ export class Coin extends MovingObject implements JetpackJoyride.ICoin {
     protected kill() {
         this.using = false;
         this.flipped = false;
-        this.disableBody(true, true);
+        this.body?.stop(); // Ensure velocity is stopped
+        this.setVelocity(0); // Remove any movement
+        this.disableBody(true, true); // Disable body + hide + deactivate
+    }
+    public reuse(x: number, y: number) {
+        this.speed = -GameManager.speed;
+        this.moveTo(x, y);
+        this.flipped = false;
+        this.using = true;
+        this.setActive(true).setVisible(true);
+        this.enableBody(false, x, y, true, true);
     }
 }

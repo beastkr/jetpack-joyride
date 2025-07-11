@@ -4,6 +4,7 @@ import { GameManager } from "../../../jetpack-joyride/GameManager";
 import { GameScene } from "../../../jetpack-joyride/scenes/GameScene";
 import { DashState } from "../../../jetpack-joyride/scenes/GameState/DashState";
 import { Player } from "../../player/Player";
+import { FlyingState } from "../../player/states/FlyingStates";
 import { WorkerSprite } from "./WorkerSprite";
 
 export class Worker extends Phaser.GameObjects.Container implements JetpackJoyride.IWorker {
@@ -23,6 +24,9 @@ export class Worker extends Phaser.GameObjects.Container implements JetpackJoyri
         this.player = (this.scene as GameScene).player;
 
         if (this.body) this.workerSprite.flip(this.body?.velocity.x < 0, false);
+        (this.body as Physics.Arcade.Body).setAllowGravity(false);
+        this.y = Phaser.Math.Between(765, 785);
+        this.setDepth(this.y - 750);
     }
     private setupBody() {
         this.scene.physics.add.existing(this);
@@ -69,21 +73,25 @@ export class Worker extends Phaser.GameObjects.Container implements JetpackJoyri
 
         if (this.dead) {
             this.setRotation(Phaser.Math.DegToRad(90));
+            (this.body as Phaser.Physics.Arcade.Body).setVelocityX(-GameManager.speed);
             Animator.playAnim(this.workerSprite, "dead");
         }
-
-        this.move();
+        if (this.body?.velocity.x == 0) this.move();
         if (this.body) this.workerSprite.flip(this.offset < 0, false);
-
-        (this.body as Physics.Arcade.Body).setGravity(
-            0,
-            Math.abs(this.scene.physics.world.gravity.y)
-        );
 
         if (this.x > 2000) {
             this.x = -100;
             this.workerSprite.start();
             this.move();
+        }
+        const playerRef = (this.scene as GameScene).player;
+        if (
+            this.x > playerRef.x - 100 &&
+            this.x < playerRef.x + 100 &&
+            playerRef.currentState instanceof FlyingState &&
+            (playerRef.currentState as FlyingState).checkFly()
+        ) {
+            this.hitByBullet();
         }
     }
 

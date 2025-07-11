@@ -41,14 +41,20 @@ export class Rocket extends Physics.Arcade.Sprite {
         this.rocketfire = scene.add.sprite(1450, 300, "rocketfire");
         this.rocketfire.setVisible(false);
         this.rocketfire.scale = 1.5;
+        this.scene.physics.add.existing(this.rocketfire);
+        (this.rocketfire.body as Physics.Arcade.Body).setAllowGravity(false).setVelocity(0, 0);
 
         this.rockethead = scene.add.sprite(this.scene.cameras.main.width + 100, 300, "rocketfire");
         this.rockethead.setVisible(false);
         this.rockethead.scale = 1.5;
+        this.scene.physics.add.existing(this.rockethead);
+        (this.rockethead.body as Physics.Arcade.Body).setAllowGravity(false).setVelocity(0, 0);
 
         this.missilelaunch = this.scene.sound.add("rocketlaunch");
         this.warningsound = this.scene.sound.add("rocketwarning");
         this.rocketexplodesound = this.scene.sound.add("rocketexplode");
+        this.rocketfire.setVisible(false);
+        this.rockethead.setVisible(false);
     }
 
     private setupAnimations(scene: Phaser.Scene) {
@@ -83,6 +89,7 @@ export class Rocket extends Physics.Arcade.Sprite {
         this.reset();
     }
     public pending() {
+        this.reset();
         this.waiting = true;
         this.enableBody(true, 1200, 500, true, true).setVisible(true);
         this.setVelocityX(0);
@@ -114,15 +121,20 @@ export class Rocket extends Physics.Arcade.Sprite {
         this.missilelaunch.play();
         this.setVelocityX(-1200 - GameManager.speed);
         this.warning.setVisible(false);
+        this.setVisible(true);
+        this.rocketfire.setVisible(true);
+        this.rockethead.setVisible(true);
+        this.rocketfire.setPosition(this.x + 32, this.y);
+        this.rockethead.setPosition(this.x - 16, this.y);
+        (this.rockethead.body as Physics.Arcade.Body).setVelocityX(-1200 - GameManager.speed);
+        (this.rocketfire.body as Physics.Arcade.Body).setVelocityX(-1200 - GameManager.speed);
     }
 
-    public preUpdate(time: number, delta: number): void {
-        super.preUpdate(time, delta);
+    public update(time: number, delta: number): void {
+        if (!this.visible) return;
         this.rocketfire.setVisible(this.visible);
         this.rockethead.setVisible(this.visible);
         if (this.waiting) this.warning.y = (this.scene as GameScene).player.y;
-        this.rocketfire.setPosition(this.x + 32, this.y);
-        this.rockethead.setPosition(this.x - 16, this.y);
         if (this.x < -100) {
             this.reset();
         }
@@ -131,9 +143,13 @@ export class Rocket extends Physics.Arcade.Sprite {
     public reset() {
         this.setPosition(this.scene.cameras.main.width + 100, 500);
         this.setVelocityX(0);
+        (this.rockethead.body as Physics.Arcade.Body).setVelocityX(0);
+        (this.rocketfire.body as Physics.Arcade.Body).setVelocityX(0);
         this.setVisible(false);
         this.disableBody(true, true);
         this.rocketfire.setVisible(false);
         this.rockethead.setVisible(false);
+        this.rocketfire.setPosition(this.x + 32, this.y);
+        this.rockethead.setPosition(this.x - 16, this.y);
     }
 }

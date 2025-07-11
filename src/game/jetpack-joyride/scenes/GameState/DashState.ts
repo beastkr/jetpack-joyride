@@ -1,4 +1,5 @@
 import { Physics } from "phaser";
+import { AUDIO, SPRITESHEET } from "../../../../assets";
 import { Animator } from "../../Animator";
 import { GameManager } from "../../GameManager";
 import { GameScene } from "../GameScene";
@@ -12,21 +13,27 @@ export class DashState extends GameState {
     headstart_stop: Phaser.Sound.BaseSound;
     constructor(scene: GameScene) {
         super(scene);
-        Animator.createAnim(this.scene, "aura", "speedup", 0, 7);
-        Animator.createAnim(this.scene, "trail", "speedup", 8, 15);
-        this.Aura = this.scene.add.sprite(0, 0, "speedup").setVisible(false).setScale(2, 2);
-        this.Trail = this.scene.add.sprite(0, 0, "speedup").setVisible(false).setScale(2, 2);
+        Animator.createAnim(this.scene, "aura", SPRITESHEET.SPEEDUP.KEY, 0, 7);
+        Animator.createAnim(this.scene, "trail", SPRITESHEET.SPEEDUP.KEY, 8, 15);
+        this.Aura = this.scene.add
+            .sprite(0, 0, SPRITESHEET.SPEEDUP.KEY)
+            .setVisible(false)
+            .setScale(2, 2);
+        this.Trail = this.scene.add
+            .sprite(0, 0, SPRITESHEET.SPEEDUP.KEY)
+            .setVisible(false)
+            .setScale(2, 2);
 
-        this.headstart_start = this.scene.sound.add("headstart_start");
+        this.headstart_start = this.scene.sound.add(AUDIO.HEADSTART_START.KEY);
         this.headstart_start.on("complete", () => {
             this.headstart_lp.play();
         });
-        this.headstart_mid = this.scene.sound.add("headstart_mid");
+        this.headstart_mid = this.scene.sound.add(AUDIO.HEADSTART_MID.KEY);
         this.headstart_mid.on("complete", () => {
             this.headstart_start.play();
         });
-        this.headstart_lp = this.scene.sound.add("headstart_lp", { loop: true });
-        this.headstart_stop = this.scene.sound.add("headstart_stop");
+        this.headstart_lp = this.scene.sound.add(AUDIO.HEADSTART_LOOP.KEY, { loop: true });
+        this.headstart_stop = this.scene.sound.add(AUDIO.HEADSTART_STOP.KEY);
     }
     public onEnter(): void {
         this.scene.worker.forEach((element) => {

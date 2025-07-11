@@ -1,112 +1,86 @@
 import { GameScene } from "../../jetpack-joyride/scenes/GameScene";
 import { Player } from "./Player";
-import { BulletPool } from "./bullets/BulletPool";
-import { BulletShellPool } from "./bullets/BulletShellPool";
-import { ExplosionPool } from "./bullets/ExplosionPool";
 
-export class Bullets extends Phaser.GameObjects.Container implements JetpackJoyride.IBullets {
-    private bulletPool: BulletPool;
-    private explosionPool: ExplosionPool;
-    private bulletShellPool: BulletShellPool;
+export class Bullets extends Phaser.GameObjects.Container {
+    private bulletParticle: Phaser.GameObjects.Particles.ParticleEmitter;
+    private explode: Phaser.GameObjects.Particles.ParticleEmitter;
+    private bulletshell: Phaser.GameObjects.Particles.ParticleEmitter;
     private player: Player;
-    private isFiring: boolean = false;
-    private fireRate: number = 50; // ms between bullets
-    private lastFireTime: number = 0;
-
     constructor(scene: Phaser.Scene, player: Player) {
         super(scene);
         this.player = player;
-        this.bulletPool = new BulletPool(scene);
-        this.explosionPool = new ExplosionPool(scene);
-        this.bulletShellPool = new BulletShellPool(scene);
+        this.createParticle();
+        this.createExplode();
+        this.createShell();
         this.player.add(this);
+        // this.scene.add.existing(this);
+    }
+    private createParticle() {
+        this.bulletParticle = this.scene.add.particles(0, 0, "bullet", {
+            follow: this.player,
+            angle: { min: 70, max: 110 }, // movement direction
+            speed: 2000,
+            scale: { start: 2, end: 2 },
+            alpha: { start: 1, end: 1 },
+            lifespan: 1000,
+            frequency: 50,
+            quantity: 1,
+            emitting: true,
+        });
+    }
+    public stop() {
+        this.bulletParticle.stop();
+        this.bulletshell.stop();
     }
 
-    public stop(): void {
-        this.isFiring = false;
+    public start() {
+        this.bulletParticle.start();
+        this.bulletshell.start();
     }
+    public kill() {
+        const p = this.bulletshell.overlap(
+            (this.player.scene as GameScene).bot.body as Phaser.Physics.Arcade.Body
+        );
+        if (p.length > 0) {
+            p.forEach((particle) => {
+                particle.kill();
+            });
+        }
 
-    public start(): void {
-        this.isFiring = true;
-    }
-
-    public update(time: number, delta: number, shouldFire: boolean = false): void {
-        // Update all pools
-        this.bulletPool.update(time, delta);
-        this.bulletShellPool.update(time, delta);
-
-        // Fire bullets only when input is pressed and enough time has passed
-        if (shouldFire && this.isFiring && time - this.lastFireTime > this.fireRate) {
-            this.fireBullet();
-            this.lastFireTime = time;
+        const particles = this.bulletParticle.overlap(
+            (this.player.scene as GameScene).bot.body as Phaser.Physics.Arcade.Body
+        );
+        if (particles.length > 0) {
+            particles.forEach((particle) => {
+                this.explode.emitParticleAt(particle.x, particle.y);
+                this.bulletshell.emitParticleAt(this.player.x, this.player.y + 50);
+                particle.kill();
+            });
         }
     }
 
-    private fireBullet(): void {
-        // Fire a bullet from player position
-        this.bulletPool.fireBullet(this.player.x, this.player.y);
-
-        // Eject a shell
-        this.bulletShellPool.ejectShell(this.player.x, this.player.y + 50);
-    }
-
-    public kill(): void {
-        // Check bullet collisions with the ground/obstacles
-        const gameScene = this.player.scene as GameScene;
-
-        // Check bullet shell collisions with ground
-        const hitShells = this.bulletShellPool.checkCollisions(
-            gameScene.bot.body as Phaser.Physics.Arcade.Body
-        );
-        hitShells.forEach((shell) => {
-            this.bulletShellPool.returnShell(shell);
-        });
-
-        // Check bullet collisions with ground
-        const hitBullets = this.bulletPool.checkCollisions(
-            gameScene.bot.body as Phaser.Physics.Arcade.Body
-        );
-        hitBullets.forEach((bullet) => {
-            this.explosionPool.createExplosion(bullet.x, bullet.y);
-
-            this.bulletShellPool.ejectShell(this.player.x, this.player.y + 50);
-
-            this.bulletPool.returnBullet(bullet);
-        });
-
-        this.checkWorkerCollisions();
-    }
-
-    private checkWorkerCollisions(): void {
-        const gameScene = this.player.scene as GameScene;
-
-        this.bulletPool.getChildren().forEach((bulletObj) => {
-            const bullet = bulletObj as any;
-            if (bullet.active && bullet.body) {
-                gameScene.worker.forEach((worker) => {
-                    if (
-                        !worker.dead &&
-                        worker.body &&
-                        this.player.scene.physics.overlap(bullet, worker)
-                    ) {
-                        // Worker hit by bullet
-                        worker.hitByBullet();
-
-                        // Create explosion at bullet position
-                        this.explosionPool.createExplosion(bullet.x, bullet.y);
-
-                        // Remove bullet
-                        this.bulletPool.returnBullet(bullet);
-                    }
-                });
-            }
+    private createExplode() {
+        this.explode = this.scene.add.particles(0, 0, "bullet_fx", {
+            frame: [0, 1, 2, 3],
+            emitting: false,
+            speed: 0,
+            scale: 1.2,
+            quantity: 1,
+            lifespan: 50,
         });
     }
-
-    public disableAll(): void {
-        this.bulletPool.disableAll();
-        this.explosionPool.disableAll();
-        this.bulletShellPool.disableAll();
-        this.isFiring = false;
+    private createShell() {
+        this.bulletshell = this.scene.add.particles(0, 0, "bulletshell", {
+            emitting: true,
+            angle: { min: 110, max: 150 }, // movement direction
+            rotate: { min: 0, max: 360 },
+            scale: 0.5,
+            speedX: -100,
+            speedY: 300,
+            accelerationX: -1000,
+            accelerationY: 600,
+            quantity: 1,
+            lifespan: 5000,
+        });
     }
 }

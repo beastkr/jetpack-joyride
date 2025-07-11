@@ -9,9 +9,7 @@ export class MainMenu extends Scene {
         super("MainMenu");
     }
 
-    preload() {
-        this.load.image("splash", "assets/Splash/loading_screen.png");
-    }
+    preload() {}
 
     create() {
         const { width, height } = this.scale;

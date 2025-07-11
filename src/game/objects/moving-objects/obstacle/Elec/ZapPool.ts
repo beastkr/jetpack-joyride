@@ -7,7 +7,7 @@ export class ZapPool extends Phaser.GameObjects.Group implements JetpackJoyride.
         this.createMultiple({
             classType: Zap,
             key: "zap", // sprite key
-            frameQuantity: 10, // adjust to max needed
+            frameQuantity: 20, // adjust to max needed
             active: false,
             visible: false,
             setXY: { x: -1000, y: -1000 }, // offscreen
@@ -20,6 +20,7 @@ export class ZapPool extends Phaser.GameObjects.Group implements JetpackJoyride.
             zap.setActive(true);
             zap.setVisible(true);
             zap.setPosition(x, y);
+            zap.enableBody();
             scene.physics.world.enable(zap);
             return zap;
         } else {
@@ -33,7 +34,7 @@ export class ZapPool extends Phaser.GameObjects.Group implements JetpackJoyride.
     returnZap(zap: Zap) {
         zap.setActive(false);
         zap.setVisible(false);
-        zap.body?.stop();
+        zap.disableBody();
         zap.body?.reset(-1000, -1000); // send offscreen
     }
 

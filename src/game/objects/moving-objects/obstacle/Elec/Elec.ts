@@ -28,8 +28,8 @@ export class Elec extends Phaser.GameObjects.Container implements JetpackJoyride
 
         this.animInit();
 
-        this.head = new ElecHead(scene, 0, 0, "", true);
-        this.tail = new ElecHead(scene, lenx, leny, "", true);
+        this.head = new ElecHead(scene, 0, 0, "");
+        this.tail = new ElecHead(scene, lenx, leny, "");
 
         this.fxSetup(lenx, leny);
 
@@ -68,34 +68,13 @@ export class Elec extends Phaser.GameObjects.Container implements JetpackJoyride
         if (this.body) {
             (this.body as Phaser.Physics.Arcade.Body).setVelocityX(-this.speed);
         }
-
-        if (this.head.body) {
-            (this.head.body as Phaser.Physics.Arcade.Body).setVelocityX(0);
-        }
-        if (this.tail.body) {
-            (this.tail.body as Phaser.Physics.Arcade.Body).setVelocityX(0);
-        }
-        this.zapfx.getChildren().forEach((element) => {
-            const zap = element as Zap;
-            if (zap.body) {
-                (zap.body as Phaser.Physics.Arcade.Body).setVelocityX(0);
-            }
-        });
     }
     update() {
-        if (!this.active) return;
-
-        this.speed = GameManager.speed;
-        if (this.body) {
-            (this.body as Phaser.Physics.Arcade.Body).setVelocityX(-this.speed);
-        }
+        if (!this.visible) return;
 
         if (this.x <= -200) {
             this.deactivate();
         }
-
-        this.headfx.setPosition(this.head.x, this.head.y);
-        this.tailfx.setPosition(this.tail.x, this.tail.y);
     }
 
     animInit() {
@@ -129,9 +108,6 @@ export class Elec extends Phaser.GameObjects.Container implements JetpackJoyride
             const zap = this.zapfx.getZap(this.scene, x, y);
             zap.setAngle(Phaser.Math.RadToDeg(angle));
 
-            // Remove zap from scene since it will be part of container
-            this.scene.children.remove(zap);
-
             if (zap.body instanceof Phaser.Physics.Arcade.Body) {
                 zap.body.setAllowGravity(false);
                 // Stop individual movement - container will handle it
@@ -146,6 +122,7 @@ export class Elec extends Phaser.GameObjects.Container implements JetpackJoyride
             }
 
             Animator.play(zap, "zapFX", i % 32);
+            zap.add(this);
             zapComponents.push(zap);
         }
 
@@ -167,23 +144,23 @@ export class Elec extends Phaser.GameObjects.Container implements JetpackJoyride
         this.headfx.setPosition(this.head.x, this.head.y);
         this.tailfx.setPosition(this.tail.x, this.tail.y);
 
-        // Clear existing zaps from container and return to pool
-        this.zapfx.getChildren().forEach((element) => {
-            this.remove(element);
-            this.zapfx.returnZap(element as Zap);
-        });
+        // // Clear existing zaps from container and return to pool
+        // this.zapfx.getChildren().forEach((element) => {
+        //     this.remove(element);
+        //     this.zapfx.returnZap(element as Zap);
+        // });
 
         // Recalculate and add new zaps with proper layering
         const zapComponents = this.calcZaps(lenx, leny);
 
-        // Insert zaps before head and tail to maintain proper layer order
-        // Remove head and tail temporarily
+        // // Insert zaps before head and tail to maintain proper layer order
+        // // Remove head and tail temporarily
         this.remove([this.head, this.tail]);
 
-        // Add zaps
-        this.add(zapComponents);
+        // // Add zaps
+        // this.add(zapComponents);
 
-        // Add head and tail back on top
+        // // Add head and tail back on top
         this.add([this.head, this.tail]);
 
         this.rotateOrb();
@@ -204,7 +181,6 @@ export class Elec extends Phaser.GameObjects.Container implements JetpackJoyride
 
         // Remove and return all zap components
         this.zapfx.getChildren().forEach((element) => {
-            this.remove(element);
             this.zapfx.returnZap(element as Zap);
         });
 

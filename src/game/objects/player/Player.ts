@@ -38,6 +38,7 @@ export class Player extends Phaser.GameObjects.Container implements JetpackJoyri
         this.setDepth(111);
     }
     public rest() {
+        this.shadowSprite.setVisible(false);
         this.setPosition(this.x, this.y - 10);
         this.setVisible(false);
         this.switchState("hold");
@@ -48,6 +49,7 @@ export class Player extends Phaser.GameObjects.Container implements JetpackJoyri
     public update(time: number, delta: number): void {
         this.onGround = (this.body as Phaser.Physics.Arcade.Body).blocked.down;
         this.shadowSprite.setVisible(this.visible);
+        this.shadowSprite.x = this.x;
         // console.log(this.currentState);
         super.update(time, delta);
         if (this.body?.velocity.y != 0) this.onGround = false;
@@ -74,7 +76,7 @@ export class Player extends Phaser.GameObjects.Container implements JetpackJoyri
         this.shadowSprite = this.scene.add.sprite(0, 0, "shadow");
         this.playerSprite = new PlayerSprite(this);
         this.shadowSprite.x = this.x + 20;
-        this.shadowSprite.y = 750;
+        this.shadowSprite.y = 785;
         this.shadowSprite.setAlpha(0.5);
     }
 

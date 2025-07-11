@@ -25,6 +25,9 @@ export class FlyingState extends PlayerState {
             duration: 100,
         });
     }
+    public checkFly() {
+        return this.player.controller.jetLaunch();
+    }
     public onUpdate(time: number, delta: number): void {
         const isPressJetLaunch = this.player.controller.jetLaunch();
 
@@ -63,7 +66,6 @@ export class FlyingState extends PlayerState {
         this.setFXVisible(false);
         (this.player.body as Phaser.Physics.Arcade.Body).setVelocityY(0);
         this.bulletParticle.stop();
-        this.bulletParticle.disableAll(); // Clean up all active bullets
         this.stopsound.stop();
         this.shootingsound.stop();
     }

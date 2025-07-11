@@ -1,4 +1,4 @@
-import { Tilemaps } from "phaser";
+import { Physics, Tilemaps } from "phaser";
 import { GameManager } from "../../../jetpack-joyride/GameManager";
 
 export class Aquarium implements JetpackJoyride.IBackGround {
@@ -6,6 +6,8 @@ export class Aquarium implements JetpackJoyride.IBackGround {
     map: Phaser.Tilemaps.Tilemap;
     maplayer: Phaser.Tilemaps.TilemapLayer;
     mapBG: Phaser.Tilemaps.TilemapLayer;
+    mapBody: Phaser.Physics.Arcade.Body;
+    bgBody: Physics.Arcade.Body;
     constructor(scene: Phaser.Scene) {
         this.scene = scene;
         this.map = this.scene.make.tilemap({
@@ -27,10 +29,16 @@ export class Aquarium implements JetpackJoyride.IBackGround {
             0
         ) as Phaser.Tilemaps.TilemapLayer;
         this.mapBG.setScale(1, 2);
+        this.scene.physics.add.existing(this.maplayer);
+        this.mapBody = this.maplayer.body as Physics.Arcade.Body;
+        this.mapBody.setAllowGravity(false);
+        this.scene.physics.add.existing(this.mapBG);
+        this.bgBody = this.mapBG.body as Physics.Arcade.Body;
+        this.bgBody.setAllowGravity(false);
     }
     update(time: number, delta: number): void {
-        this.maplayer.x -= (GameManager.speed * delta) / 1000;
-        this.mapBG.x -= (GameManager.speed * delta) / 1000;
+        this.mapBody.setVelocityX(-GameManager.speed);
+        this.bgBody.setVelocityX(-GameManager.speed);
     }
     moveTo(x: number) {
         this.maplayer.x = x;

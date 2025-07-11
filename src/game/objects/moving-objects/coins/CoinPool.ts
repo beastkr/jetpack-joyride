@@ -23,14 +23,7 @@ export class CoinPool extends Phaser.GameObjects.Group implements JetpackJoyride
             classType: Coin,
         });
     }
-    public update() {
-        this.getChildren().forEach((element) => {
-            element.update();
-        });
-        this.bigPool.getChildren().forEach((element) => {
-            element.update();
-        });
-    }
+    public update() {}
 
     public test(scene: GameScene) {
         const patterns = CointileLoader.tile;
@@ -56,18 +49,12 @@ export class CoinPool extends Phaser.GameObjects.Group implements JetpackJoyride
                     const coin = this.getFirstDead(false) as Coin | null;
                     if (!coin) return;
 
-                    coin.moveTo(x, y);
-                    coin.enableBody(true, x, y, true, true).setVisible(true);
-                    coin.using = true;
-                    coin.move();
+                    coin.reuse(x, y);
                 } else if (cell === 9) {
                     const bigCoin = this.bigPool.getFirstDead(false) as Bigcoin | null;
                     if (!bigCoin) return;
 
-                    bigCoin.moveTo(x, y);
-                    bigCoin.enableBody(true, x, y, true, true).setVisible(true);
-                    bigCoin.using = true;
-                    bigCoin.move();
+                    bigCoin.reuse(x, y);
                 }
             });
         });

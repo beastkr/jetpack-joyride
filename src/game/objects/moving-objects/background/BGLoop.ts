@@ -1,3 +1,4 @@
+import { GameManager } from "../../../jetpack-joyride/GameManager";
 import { Aquarium } from "./Aquarium";
 import { Hall } from "./Hall";
 import { Room1 } from "./Room1";
@@ -24,6 +25,8 @@ export class BGLoop {
     }
 
     maintain() {
+        if (GameManager.speed > 600 && this.prevBG)
+            this.currentBG.moveTo(this.prevBG.maplayer.x + 4846);
         this.currentBG.maplayer.setDepth(-10);
         this.currentBG.mapBG?.setDepth(-19);
         this.prevBG?.maplayer.setDepth(-9);

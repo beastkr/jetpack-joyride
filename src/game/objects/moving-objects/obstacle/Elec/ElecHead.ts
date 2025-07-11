@@ -3,22 +3,9 @@ import { GameScene } from "../../../../jetpack-joyride/scenes/GameScene";
 import { Obstacle } from "../Obstacle";
 
 export class ElecHead extends Obstacle {
-    private isInContainer: boolean = false;
-
-    constructor(
-        scene: Phaser.Scene,
-        x: number,
-        y: number,
-        texture: string,
-        inContainer: boolean = false
-    ) {
+    constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
         super(scene, x, y, texture);
         this.setDepth(81);
-        this.isInContainer = inContainer;
-
-        if (inContainer) {
-            scene.children.remove(this);
-        }
 
         this.headAnimCreate();
         Animator.play(this, "elechead");

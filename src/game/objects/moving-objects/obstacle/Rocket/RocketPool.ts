@@ -25,6 +25,11 @@ export class RocketPool extends Phaser.GameObjects.Group implements JetpackJoyri
         }
         return rocket;
     }
+    update(time: number, delta: number) {
+        this.getChildren().forEach((element) => {
+            element.update();
+        });
+    }
 
     returnRocket(rocket: Rocket) {
         rocket.reset();

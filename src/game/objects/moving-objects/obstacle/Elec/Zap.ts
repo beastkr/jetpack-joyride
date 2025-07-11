@@ -2,22 +2,10 @@ import { Animator } from "../../../../jetpack-joyride/Animator";
 import { GameScene } from "../../../../jetpack-joyride/scenes/GameScene";
 import { Obstacle } from "../Obstacle";
 export class Zap extends Obstacle {
-    private isInContainer: boolean = false;
-
-    constructor(
-        scene: Phaser.Scene,
-        x: number,
-        y: number,
-        texture: string,
-        inContainer: boolean = false
-    ) {
+    already: boolean = false;
+    constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
         super(scene, x, y, texture);
         this.setDepth(80);
-        this.isInContainer = inContainer;
-
-        if (inContainer) {
-            scene.children.remove(this);
-        }
 
         this.zapAnim();
         Animator.play(this, "zapFX");
@@ -30,6 +18,10 @@ export class Zap extends Obstacle {
     }
     public override move(): void {
         (this.body as Phaser.Physics.Arcade.Body).setVelocityX(0);
+    }
+    add(container: Phaser.GameObjects.Container) {
+        if (this.already) return;
+        container.add(this);
     }
 
     private zapAnim() {

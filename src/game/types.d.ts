@@ -144,6 +144,7 @@ declare namespace JetpackJoyride {
     interface IRocketPool extends IObjectPool<any> {
         getRocket(scene: Phaser.Scene): any;
         returnRocket(rocket: any): void;
+        update(time: number, delta: number): void;
     }
 
     // ===== BULLET INTERFACES =====
@@ -158,7 +159,6 @@ declare namespace JetpackJoyride {
         fireBullet(x: number, y: number): IBullet | null;
         returnBullet(bullet: IBullet): void;
         update(time: number, delta: number): void;
-        checkCollisions(target: Phaser.Physics.Arcade.Body): IBullet[];
     }
 
     interface IExplosion {
