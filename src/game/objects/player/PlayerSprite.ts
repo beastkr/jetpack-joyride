@@ -1,4 +1,5 @@
 import { GameObjects } from "phaser";
+import { SPRITESHEET } from "../../../assets";
 
 export class PlayerSprite
     extends Phaser.GameObjects.Container
@@ -29,19 +30,19 @@ export class PlayerSprite
         this.playerJetpack.setVisible(jetpack);
     }
     private addBody() {
-        this.playerBody = this.scene.add.sprite(10, 5, "player_body");
+        this.playerBody = this.scene.add.sprite(10, 5, SPRITESHEET.PLAYER_BODY.KEY);
         this.add(this.playerBody);
         this.playerBody.setName("body");
     }
 
     private addHead() {
-        this.playerHead = this.scene.add.sprite(10, -8, "player_head");
+        this.playerHead = this.scene.add.sprite(10, -8, SPRITESHEET.PLAYER_HEAD.KEY);
         this.add(this.playerHead);
         this.playerHead.setName("head");
     }
 
     private addJetPack() {
-        this.playerJetpack = this.scene.add.sprite(0, 5, "player_jetpack");
+        this.playerJetpack = this.scene.add.sprite(0, 5, SPRITESHEET.PLAYER_JETPACK.KEY);
         this.add(this.playerJetpack);
         this.playerJetpack.setName("jetpack");
     }

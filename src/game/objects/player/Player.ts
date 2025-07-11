@@ -1,3 +1,4 @@
+import { IMAGES } from "../../../assets";
 import { PlayerController } from "./PlayerController";
 import { PlayerSprite } from "./PlayerSprite";
 import { PlayerStateMachine } from "./PlayerStateMachine";
@@ -73,7 +74,7 @@ export class Player extends Phaser.GameObjects.Container implements JetpackJoyri
     }
 
     private setUpSprite() {
-        this.shadowSprite = this.scene.add.sprite(0, 0, "shadow");
+        this.shadowSprite = this.scene.add.sprite(0, 0, IMAGES.SHADOW.KEY);
         this.playerSprite = new PlayerSprite(this);
         this.shadowSprite.x = this.x + 20;
         this.shadowSprite.y = 785;

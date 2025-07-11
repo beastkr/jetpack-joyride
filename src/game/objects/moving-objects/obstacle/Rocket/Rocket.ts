@@ -1,4 +1,5 @@
 import { GameObjects, Physics } from "phaser";
+import { AUDIO, SPRITESHEET } from "../../../../../assets";
 import { Animator } from "../../../../jetpack-joyride/Animator";
 import { GameManager } from "../../../../jetpack-joyride/GameManager";
 import { GameScene } from "../../../../jetpack-joyride/scenes/GameScene";
@@ -15,7 +16,7 @@ export class Rocket extends Physics.Arcade.Sprite {
     missilelaunch: Phaser.Sound.BaseSound;
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
-        super(scene, x, y, "rocket");
+        super(scene, x, y, SPRITESHEET.ROCKET.KEY);
         scene.add.existing(this);
         scene.physics.add.existing(this);
 
@@ -30,40 +31,52 @@ export class Rocket extends Physics.Arcade.Sprite {
         this.setVisible(false);
         this.disableBody(true, true);
 
-        this.warning = scene.add.sprite(this.scene.cameras.main.width - 50, 300, "warning");
+        this.warning = scene.add.sprite(
+            this.scene.cameras.main.width - 50,
+            300,
+            SPRITESHEET.WARNING.KEY
+        );
         this.warning.setVisible(false);
         this.warning.scale = 1.5;
 
-        this.explode = scene.add.sprite(this.scene.cameras.main.width + 100, 300, "explosion");
+        this.explode = scene.add.sprite(
+            this.scene.cameras.main.width + 100,
+            300,
+            SPRITESHEET.EXPLOSION.KEY
+        );
         this.explode.setVisible(false);
         this.explode.scale = 1.5;
 
-        this.rocketfire = scene.add.sprite(1450, 300, "rocketfire");
+        this.rocketfire = scene.add.sprite(1450, 300, SPRITESHEET.ROCKET_FIRE.KEY);
         this.rocketfire.setVisible(false);
         this.rocketfire.scale = 1.5;
         this.scene.physics.add.existing(this.rocketfire);
         (this.rocketfire.body as Physics.Arcade.Body).setAllowGravity(false).setVelocity(0, 0);
 
-        this.rockethead = scene.add.sprite(this.scene.cameras.main.width + 100, 300, "rocketfire");
+        this.rockethead = scene.add.sprite(
+            this.scene.cameras.main.width + 100,
+            300,
+            SPRITESHEET.ROCKET_FIRE.KEY
+        );
         this.rockethead.setVisible(false);
         this.rockethead.scale = 1.5;
         this.scene.physics.add.existing(this.rockethead);
         (this.rockethead.body as Physics.Arcade.Body).setAllowGravity(false).setVelocity(0, 0);
 
-        this.missilelaunch = this.scene.sound.add("rocketlaunch");
-        this.warningsound = this.scene.sound.add("rocketwarning");
-        this.rocketexplodesound = this.scene.sound.add("rocketexplode");
+        this.missilelaunch = this.scene.sound.add(AUDIO.ROCKET_LAUNCH.KEY);
+        this.warningsound = this.scene.sound.add(AUDIO.ROCKET_WARNING.KEY);
+        this.rocketexplodesound = this.scene.sound.add(AUDIO.ROCKET_EXPLODE.KEY);
         this.rocketfire.setVisible(false);
         this.rockethead.setVisible(false);
     }
 
     private setupAnimations(scene: Phaser.Scene) {
-        Animator.createAnim(scene, "rocket", "rocket", 0, 3);
-        Animator.createAnim(scene, "warning", "warning", 0, 3, 12, true, 2);
-        Animator.createAnim(scene, "warning2", "warning", 4, 7, 12, true, 2);
-        Animator.createAnim(scene, "explode", "explosion", 0, 7, 12, false);
-        Animator.createAnim(scene, "fire", "rocketfire", 0, 3);
-        Animator.createAnim(scene, "rockethead", "rocketfire", 4, 7);
+        Animator.createAnim(scene, "rocket", SPRITESHEET.ROCKET.KEY, 0, 3);
+        Animator.createAnim(scene, "warning", SPRITESHEET.WARNING.KEY, 0, 3, 12, true, 2);
+        Animator.createAnim(scene, "warning2", SPRITESHEET.WARNING.KEY, 4, 7, 12, true, 2);
+        Animator.createAnim(scene, "explode", SPRITESHEET.EXPLOSION.KEY, 0, 7, 12, false);
+        Animator.createAnim(scene, "fire", SPRITESHEET.ROCKET_FIRE.KEY, 0, 3);
+        Animator.createAnim(scene, "rockethead", SPRITESHEET.ROCKET_FIRE.KEY, 4, 7);
         Animator.play(this, "rocket");
         Animator.play(this.rocketfire, "fire");
         Animator.play(this.rockethead, "rockethead");

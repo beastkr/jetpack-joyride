@@ -7,7 +7,6 @@ export class Jetpack extends Vehicle {
         super(scene, "", player);
     }
     public control() {
-        console.log("aaa");
         this.player.controller.jetLaunch();
         if ((this.player.body as Physics.Arcade.Body).velocity.y < 0) {
             this.player.switchState("flying");

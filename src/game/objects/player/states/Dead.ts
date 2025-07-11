@@ -1,4 +1,5 @@
 import { Physics } from "phaser";
+import { SPRITESHEET } from "../../../../assets";
 import { Animator } from "../../../jetpack-joyride/Animator";
 import { GameManager } from "../../../jetpack-joyride/GameManager";
 import { GameScene } from "../../../jetpack-joyride/scenes/GameScene";
@@ -29,7 +30,23 @@ export class Dead extends PlayerState {
     }
 
     private createDeadAnim() {
-        Animator.createAnim(this.player.scene, "dead_head", "player_head", 24, 31, 12, false);
-        Animator.createAnim(this.player.scene, "dead_body", "player_body", 24, 31, 12, false);
+        Animator.createAnim(
+            this.player.scene,
+            "dead_head",
+            SPRITESHEET.PLAYER_HEAD.KEY,
+            24,
+            31,
+            12,
+            false
+        );
+        Animator.createAnim(
+            this.player.scene,
+            "dead_body",
+            SPRITESHEET.PLAYER_BODY.KEY,
+            24,
+            31,
+            12,
+            false
+        );
     }
 }

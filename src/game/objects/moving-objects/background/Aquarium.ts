@@ -1,4 +1,5 @@
 import { Physics, Tilemaps } from "phaser";
+import { IMAGES, TILEMAP } from "../../../../assets";
 import { GameManager } from "../../../jetpack-joyride/GameManager";
 
 export class Aquarium implements JetpackJoyride.IBackGround {
@@ -11,11 +12,11 @@ export class Aquarium implements JetpackJoyride.IBackGround {
     constructor(scene: Phaser.Scene) {
         this.scene = scene;
         this.map = this.scene.make.tilemap({
-            key: "aquarium_map",
+            key: TILEMAP.AQUARIUM.KEY,
             tileHeight: 256,
             tileWidth: 256,
         });
-        const tileset = this.map.addTilesetImage("aquarium_assets", "aquarium");
+        const tileset = this.map.addTilesetImage("aquarium_assets", IMAGES.AQUARIUM.KEY);
         this.mapBG = this.map.createLayer(
             "water",
             tileset as Tilemaps.Tileset,

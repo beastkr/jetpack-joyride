@@ -1,3 +1,4 @@
+import { IMAGES, SPRITESHEET } from "../../../assets";
 import { GameScene } from "../../jetpack-joyride/scenes/GameScene";
 import { Player } from "./Player";
 
@@ -16,7 +17,7 @@ export class Bullets extends Phaser.GameObjects.Container {
         // this.scene.add.existing(this);
     }
     private createParticle() {
-        this.bulletParticle = this.scene.add.particles(0, 0, "bullet", {
+        this.bulletParticle = this.scene.add.particles(0, 0, IMAGES.BULLET.KEY, {
             follow: this.player,
             angle: { min: 70, max: 110 }, // movement direction
             speed: 2000,
@@ -60,7 +61,7 @@ export class Bullets extends Phaser.GameObjects.Container {
     }
 
     private createExplode() {
-        this.explode = this.scene.add.particles(0, 0, "bullet_fx", {
+        this.explode = this.scene.add.particles(0, 0, SPRITESHEET.BULLET_FX.KEY, {
             frame: [0, 1, 2, 3],
             emitting: false,
             speed: 0,
@@ -70,7 +71,7 @@ export class Bullets extends Phaser.GameObjects.Container {
         });
     }
     private createShell() {
-        this.bulletshell = this.scene.add.particles(0, 0, "bulletshell", {
+        this.bulletshell = this.scene.add.particles(0, 0, IMAGES.BULLETSHELL.KEY, {
             emitting: true,
             angle: { min: 110, max: 150 }, // movement direction
             rotate: { min: 0, max: 360 },

@@ -1,3 +1,4 @@
+import { SPRITESHEET } from "../../../../../assets";
 import { Animator } from "../../../../jetpack-joyride/Animator";
 import { GameManager } from "../../../../jetpack-joyride/GameManager";
 import { ElecHead } from "./ElecHead";
@@ -78,7 +79,7 @@ export class Elec extends Phaser.GameObjects.Container implements JetpackJoyride
     }
 
     animInit() {
-        Animator.createAnim(this.scene, "elecglow", "elecOnGlow", 0, 15);
+        Animator.createAnim(this.scene, "elecglow", SPRITESHEET.ELEC_ON_GLOW.KEY, 0, 15);
     }
     private fxSetup(lenx: number, leny: number) {
         this.headfx = this.scene.add.sprite(0, 0, "");

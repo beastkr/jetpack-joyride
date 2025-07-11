@@ -1,3 +1,4 @@
+import { AUDIO, SPRITESHEET } from "../../../../assets";
 import { Animator } from "../../../jetpack-joyride/Animator";
 import { GameManager } from "../../../jetpack-joyride/GameManager";
 import { GameScene } from "../../../jetpack-joyride/scenes/GameScene";
@@ -12,7 +13,7 @@ export class Coin extends MovingObject implements JetpackJoyride.ICoin {
         super(scene, x, y, texture);
 
         this.CoinAnimInit();
-        this.coinsound = this.scene.sound.add("coinsound");
+        this.coinsound = this.scene.sound.add(AUDIO.COINSOUND.KEY);
         scene.physics.add.overlap(this, scene.player, () => {
             GameManager.collectCoin(this.point);
             this.kill();
@@ -35,7 +36,7 @@ export class Coin extends MovingObject implements JetpackJoyride.ICoin {
         this.setVelocityX(-this.speed);
     }
     protected CoinAnimInit() {
-        Animator.createAnim(this.scene, "coin_flip", "coin", 0, 7, 12, false);
+        Animator.createAnim(this.scene, "coin_flip", SPRITESHEET.COIN.KEY, 0, 7, 12, false);
     }
     public moveTo(x: number, y: number) {
         this.x = x;

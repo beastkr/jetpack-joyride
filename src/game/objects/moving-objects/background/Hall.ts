@@ -1,4 +1,5 @@
 import { Physics, Tilemaps } from "phaser";
+import { IMAGES } from "../../../../assets";
 import { GameManager } from "../../../jetpack-joyride/GameManager";
 
 export class Hall implements JetpackJoyride.IBackGround {
@@ -15,7 +16,7 @@ export class Hall implements JetpackJoyride.IBackGround {
             tileHeight: 256,
             tileWidth: 256,
         });
-        const tileset = this.map.addTilesetImage("warehouse_assets", "hall");
+        const tileset = this.map.addTilesetImage("warehouse_assets", IMAGES.HALL.KEY);
         this.mapBG = this.map.createLayer(
             "back",
             tileset as Tilemaps.Tileset,

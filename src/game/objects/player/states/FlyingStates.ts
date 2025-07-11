@@ -1,3 +1,4 @@
+import { AUDIO, SPRITESHEET } from "../../../../assets";
 import { Animator } from "../../../jetpack-joyride/Animator";
 import { Bullets } from "../Bullets";
 import { Player } from "../Player";
@@ -12,8 +13,8 @@ export class FlyingState extends PlayerState {
     constructor(player: Player) {
         super(player);
         if (!this.bulletParticle) this.bulletParticle = new Bullets(this.player.scene, this.player);
-        this.shootingsound = this.player.scene.sound.add("shooting", { loop: true });
-        this.stopsound = this.player.scene.sound.add("stopshooting");
+        this.shootingsound = this.player.scene.sound.add(AUDIO.SHOOTING.KEY, { loop: true });
+        this.stopsound = this.player.scene.sound.add(AUDIO.STOP_SHOOTING.KEY);
         this.bulletParticle.stop();
     }
     public onEnter(): void {
@@ -76,17 +77,40 @@ export class FlyingState extends PlayerState {
         this.jetFXAnim();
     }
     private flyUpAnimInit() {
-        Animator.createAnim(this.player.scene, "flyup_head", "player_head", 4, 7, 24);
-        Animator.createAnim(this.player.scene, "flyup_body", "player_body", 4, 7, 24);
-        Animator.createAnim(this.player.scene, "flyup_jetpack", "player_jetpack", 4, 7, 24);
+        Animator.createAnim(this.player.scene, "flyup_head", SPRITESHEET.PLAYER_HEAD.KEY, 4, 7, 24);
+        Animator.createAnim(this.player.scene, "flyup_body", SPRITESHEET.PLAYER_BODY.KEY, 4, 7, 24);
+        Animator.createAnim(
+            this.player.scene,
+            "flyup_jetpack",
+            SPRITESHEET.PLAYER_JETPACK.KEY,
+            4,
+            7,
+            24
+        );
     }
     private flyDownAnimInit() {
-        Animator.createAnim(this.player.scene, "flydown_head", "player_head", 8, 11, 12, false);
-        Animator.createAnim(this.player.scene, "flydown_body", "player_body", 8, 11, 12, false);
+        Animator.createAnim(
+            this.player.scene,
+            "flydown_head",
+            SPRITESHEET.PLAYER_HEAD.KEY,
+            8,
+            11,
+            12,
+            false
+        );
+        Animator.createAnim(
+            this.player.scene,
+            "flydown_body",
+            SPRITESHEET.PLAYER_BODY.KEY,
+            8,
+            11,
+            12,
+            false
+        );
         Animator.createAnim(
             this.player.scene,
             "flydown_jetpack",
-            "player_jetpack",
+            SPRITESHEET.PLAYER_JETPACK.KEY,
             8,
             11,
             12,
@@ -103,7 +127,14 @@ export class FlyingState extends PlayerState {
     }
 
     private jetFXAnim() {
-        Animator.createAnim(this.player.scene, "flyup_jetfx", "jet_fx", 0, 3, 24);
-        Animator.createAnim(this.player.scene, "flyup_bulletfx", "bullet_fx", 0, 3, 24);
+        Animator.createAnim(this.player.scene, "flyup_jetfx", SPRITESHEET.JET_FX.KEY, 0, 3, 24);
+        Animator.createAnim(
+            this.player.scene,
+            "flyup_bulletfx",
+            SPRITESHEET.BULLET_FX.KEY,
+            0,
+            3,
+            24
+        );
     }
 }

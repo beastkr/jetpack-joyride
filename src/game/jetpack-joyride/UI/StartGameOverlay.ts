@@ -1,3 +1,4 @@
+import { IMAGES } from "../../../assets";
 import { GameManager } from "../GameManager";
 import { UiContainer } from "./UIContainter";
 
@@ -98,7 +99,7 @@ export class StartGameOverlay
 
     private addLogo() {
         this.setPosition(this.center.x, this.center.y);
-        this.logo = this.scene.add.sprite(0, 0, "jetlogo");
+        this.logo = this.scene.add.sprite(0, 0, IMAGES.JETLOGO.KEY);
         this.scene.tweens.add({
             targets: this.logo,
             alpha: { from: 0, to: 1 },

@@ -1,4 +1,5 @@
 import { Physics } from "phaser";
+import { SPRITESHEET } from "../../../../assets";
 import { Animator } from "../../../jetpack-joyride/Animator";
 import { Player } from "../Player";
 import { PlayerState } from "./PlayerState";
@@ -46,17 +47,39 @@ export class WalkingState extends PlayerState {
     }
 
     private walkingAnimInit() {
-        Animator.createAnim(this.player.scene, "walking_head", "player_head", 0, 3);
-        Animator.createAnim(this.player.scene, "walking_body", "player_body", 0, 3);
-        Animator.createAnim(this.player.scene, "walking_jetpack", "player_jetpack", 0, 3);
+        Animator.createAnim(this.player.scene, "walking_head", SPRITESHEET.PLAYER_HEAD.KEY, 0, 3);
+        Animator.createAnim(this.player.scene, "walking_body", SPRITESHEET.PLAYER_BODY.KEY, 0, 3);
+        Animator.createAnim(
+            this.player.scene,
+            "walking_jetpack",
+            SPRITESHEET.PLAYER_JETPACK.KEY,
+            0,
+            3
+        );
     }
     private landingInit() {
-        Animator.createAnim(this.player.scene, "landing_head", "player_head", 12, 15, 12, false);
-        Animator.createAnim(this.player.scene, "landing_body", "player_body", 12, 15, 12, false);
+        Animator.createAnim(
+            this.player.scene,
+            "landing_head",
+            SPRITESHEET.PLAYER_HEAD.KEY,
+            12,
+            15,
+            12,
+            false
+        );
+        Animator.createAnim(
+            this.player.scene,
+            "landing_body",
+            SPRITESHEET.PLAYER_BODY.KEY,
+            12,
+            15,
+            12,
+            false
+        );
         Animator.createAnim(
             this.player.scene,
             "landing_jetpack",
-            "player_jetpack",
+            SPRITESHEET.PLAYER_JETPACK.KEY,
             12,
             15,
             12,

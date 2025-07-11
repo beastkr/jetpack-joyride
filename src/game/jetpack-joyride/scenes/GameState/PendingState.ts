@@ -1,4 +1,5 @@
 import { Physics } from "phaser";
+import { AUDIO, IMAGES } from "../../../../assets";
 import { Worker } from "../../../objects/moving-objects/worker/Worker";
 import { GameManager } from "../../GameManager";
 import { StartGameOverlay } from "../../UI/StartGameOverlay";
@@ -11,11 +12,11 @@ export class PendingState extends GameState {
     explodesound: Phaser.Sound.BaseSound;
     constructor(scene: GameScene) {
         super(scene);
-        this.explodesound = this.scene.sound.add("smash");
-        this.playingsound = this.scene.sound.add("menuBGM", { loop: true });
+        this.explodesound = this.scene.sound.add(AUDIO.SMASH.KEY);
+        this.playingsound = this.scene.sound.add(AUDIO.MENU_BGM.KEY, { loop: true });
         this.startOverlay = new StartGameOverlay(this.scene);
         this.startOverlay.setVisible(false);
-        this.explode = this.scene.add.particles(-15, 700, "dust", {
+        this.explode = this.scene.add.particles(-15, 700, IMAGES.DUST.KEY, {
             angle: { min: -110, max: 110 }, // movement direction
             speed: 300,
             scale: { min: 1, max: 2 },

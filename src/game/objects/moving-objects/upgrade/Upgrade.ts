@@ -1,3 +1,4 @@
+import { AUDIO, SPRITESHEET } from "../../../../assets";
 import { Animator } from "../../../jetpack-joyride/Animator";
 import { GameManager } from "../../../jetpack-joyride/GameManager";
 import { MovingObject } from "../MovingObject";
@@ -5,9 +6,9 @@ import { MovingObject } from "../MovingObject";
 export class Upgrade extends MovingObject {
     upgradesound: Phaser.Sound.BaseSound;
     constructor(scene: Phaser.Scene, x: number, y: number) {
-        super(scene, x, y, "upgrade");
+        super(scene, x, y, SPRITESHEET.UPGRADE.KEY);
         this.createUpgradeAnim();
-        this.upgradesound = this.scene.sound.add("powerup");
+        this.upgradesound = this.scene.sound.add(AUDIO.POWERUP.KEY);
         Animator.play(this, "upgrade");
         this.scene.physics.add.overlap(this, (this.scene as any).player, () => {
             if (!(this.scene as any).player.isdead) this.onCollect();
@@ -27,7 +28,7 @@ export class Upgrade extends MovingObject {
     }
 
     private createUpgradeAnim() {
-        Animator.createAnim(this.scene, "upgrade", "upgrade", 0, 7);
+        Animator.createAnim(this.scene, "upgrade", SPRITESHEET.UPGRADE.KEY, 0, 7);
     }
     private onCollect() {
         this.upgradesound.play();

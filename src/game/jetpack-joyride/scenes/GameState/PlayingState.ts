@@ -1,3 +1,4 @@
+import { AUDIO, IMAGES } from "../../../../assets";
 import { Elec } from "../../../objects/moving-objects/obstacle/Elec/Elec";
 import { Upgrade } from "../../../objects/moving-objects/upgrade/Upgrade";
 import { GameManager } from "../../GameManager";
@@ -15,14 +16,18 @@ export class PlayingState extends GameState {
     constructor(scene: GameScene) {
         super(scene);
 
-        this.playingsound = this.scene.sound.add("playingBGM", { loop: true });
+        this.playingsound = this.scene.sound.add(AUDIO.PLAYING_BGM.KEY, { loop: true });
         this.addText();
         this.scoreBox = new UiContainer(this.scene, 100, 200, 100, 50).setVisible(false);
         this.scoreBox.add(this.scoretext);
         this.scoreBox.add(this.cointext);
         this.upgrade = new Upgrade(this.scene, Phaser.Math.Between(5000, 10000), 500);
 
-        this.Booster = this.scene.add.sprite(this.scene.cameras.main.width / 2, 500, "booster");
+        this.Booster = this.scene.add.sprite(
+            this.scene.cameras.main.width / 2,
+            500,
+            IMAGES.BOOSTER.KEY
+        );
         this.price = this.scene.add
             .text(this.scene.cameras.main.width / 2, 550, "1000", {
                 fontSize: "40px",

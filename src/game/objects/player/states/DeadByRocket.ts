@@ -1,4 +1,5 @@
 import { Physics } from "phaser";
+import { SPRITESHEET } from "../../../../assets";
 import { Animator } from "../../../jetpack-joyride/Animator";
 import { GameScene } from "../../../jetpack-joyride/scenes/GameScene";
 import { PlayerState } from "./PlayerState";
@@ -35,7 +36,23 @@ export class DeadByRocket extends PlayerState {
     }
 
     private createDeadAnim() {
-        Animator.createAnim(this.player.scene, "deadrocket_head", "player_head", 20, 23, 12, false);
-        Animator.createAnim(this.player.scene, "deadrocket_body", "player_body", 20, 23, 12, false);
+        Animator.createAnim(
+            this.player.scene,
+            "deadrocket_head",
+            SPRITESHEET.PLAYER_HEAD.KEY,
+            20,
+            23,
+            12,
+            false
+        );
+        Animator.createAnim(
+            this.player.scene,
+            "deadrocket_body",
+            SPRITESHEET.PLAYER_BODY.KEY,
+            20,
+            23,
+            12,
+            false
+        );
     }
 }

@@ -1,3 +1,4 @@
+import { SPRITESHEET } from "../../../../../assets";
 import { Animator } from "../../../../jetpack-joyride/Animator";
 import { GameScene } from "../../../../jetpack-joyride/scenes/GameScene";
 import { Obstacle } from "../Obstacle";
@@ -25,6 +26,6 @@ export class Zap extends Obstacle {
     }
 
     private zapAnim() {
-        Animator.createAnim(this.scene, "zapFX", "zapFX", 0, 31);
+        Animator.createAnim(this.scene, "zapFX", SPRITESHEET.ZAP_FX.KEY, 0, 31);
     }
 }

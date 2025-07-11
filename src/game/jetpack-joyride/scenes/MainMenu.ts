@@ -1,4 +1,5 @@
 import { GameObjects, Scene } from "phaser";
+import { IMAGES } from "../../../assets";
 
 export class MainMenu extends Scene {
     background: GameObjects.Image;
@@ -15,7 +16,7 @@ export class MainMenu extends Scene {
         const { width, height } = this.scale;
 
         // Add background image at center
-        this.background = this.add.image(width / 2, height / 2, "splash");
+        this.background = this.add.image(width / 2, height / 2, IMAGES.SPLASH.KEY);
 
         // Get the original image dimensions
         const bgWidth = this.background.width;

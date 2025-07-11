@@ -1,3 +1,4 @@
+import { SPRITESHEET } from "../../../../../assets";
 import { Animator } from "../../../../jetpack-joyride/Animator";
 import { GameScene } from "../../../../jetpack-joyride/scenes/GameScene";
 import { Obstacle } from "../Obstacle";
@@ -22,6 +23,6 @@ export class ElecHead extends Obstacle {
     }
 
     private headAnimCreate() {
-        Animator.createAnim(this.scene, "elechead", "elecOn", 0, 3);
+        Animator.createAnim(this.scene, "elechead", SPRITESHEET.ELEC_ON.KEY, 0, 3);
     }
 }

@@ -1,4 +1,5 @@
 import { GameObjects } from "phaser";
+import { SPRITESHEET } from "../../../../assets";
 import { Animator } from "../../../jetpack-joyride/Animator";
 
 export class WorkerSprite extends Phaser.GameObjects.Container {
@@ -40,23 +41,23 @@ export class WorkerSprite extends Phaser.GameObjects.Container {
         this.workerJetpack.setVisible(jetpack);
     }
     private addBody() {
-        this.workerBody = this.scene.add.sprite(10, 5, "worker_body");
+        this.workerBody = this.scene.add.sprite(10, 5, SPRITESHEET.WORKER_BODY.KEY);
         this.add(this.workerBody);
         this.workerBody.setName("workerbody");
     }
 
     private addHead() {
-        this.workerHead = this.scene.add.sprite(10, -8, "worker_head");
+        this.workerHead = this.scene.add.sprite(10, -8, SPRITESHEET.WORKER_HEAD.KEY);
         this.add(this.workerHead);
         this.workerHead.setName("workerhead");
     }
 
     private AnimInit() {
-        Animator.createAnim(this.scene, "walking_workerhead", "worker_head", 0, 3);
-        Animator.createAnim(this.scene, "walking_workerbody", "worker_body", 0, 3);
-        Animator.createAnim(this.scene, "running_workerhead", "worker_head", 4, 7);
-        Animator.createAnim(this.scene, "running_workerbody", "worker_body", 4, 7);
-        Animator.createAnim(this.scene, "dead_workerhead", "worker_head", 0, 0);
-        Animator.createAnim(this.scene, "dead_workerbody", "worker_body", 0, 0);
+        Animator.createAnim(this.scene, "walking_workerhead", SPRITESHEET.WORKER_HEAD.KEY, 0, 3);
+        Animator.createAnim(this.scene, "walking_workerbody", SPRITESHEET.WORKER_BODY.KEY, 0, 3);
+        Animator.createAnim(this.scene, "running_workerhead", SPRITESHEET.WORKER_HEAD.KEY, 4, 7);
+        Animator.createAnim(this.scene, "running_workerbody", SPRITESHEET.WORKER_BODY.KEY, 4, 7);
+        Animator.createAnim(this.scene, "dead_workerhead", SPRITESHEET.WORKER_HEAD.KEY, 0, 0);
+        Animator.createAnim(this.scene, "dead_workerbody", SPRITESHEET.WORKER_BODY.KEY, 0, 0);
     }
 }

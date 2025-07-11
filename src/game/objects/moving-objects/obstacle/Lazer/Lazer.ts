@@ -1,4 +1,5 @@
 import { Physics } from "phaser";
+import { IMAGES, SPRITESHEET } from "../../../../../assets";
 import { Animator } from "../../../../jetpack-joyride/Animator";
 import { GameScene } from "../../../../jetpack-joyride/scenes/GameScene";
 
@@ -10,18 +11,26 @@ export class Lazer extends Phaser.GameObjects.Container {
     constructor(scene: Phaser.Scene, y: number) {
         super(scene, 0, y);
         this.animinit();
-        this.head = this.scene.add.sprite(100, 0, "lazerhead");
+        this.head = this.scene.add.sprite(100, 0, SPRITESHEET.LAZER_HEAD.KEY);
         this.tail = this.scene.add
-            .sprite(this.scene.cameras.main.width - 100, 0, "lazerhead")
+            .sprite(this.scene.cameras.main.width - 100, 0, SPRITESHEET.LAZER_HEAD.KEY)
             .setFlip(true, false);
-        this.laser = this.scene.physics.add.sprite(this.scene.cameras.main.width / 2, 0, "laser");
+        this.laser = this.scene.physics.add.sprite(
+            this.scene.cameras.main.width / 2,
+            0,
+            SPRITESHEET.LASER.KEY
+        );
         (this.laser.body as Physics.Arcade.Body).setAllowGravity(false);
         this.laser.setScale((this.scene.cameras.main.width - 200) / 64, 0.5);
         this.scene.physics.add.overlap(this.laser, (this.scene as GameScene).player, () => {
             (this.scene as GameScene).player.switchState("deadbyrocket");
             this.turnOff();
         });
-        this.warning = this.scene.add.sprite(this.scene.cameras.main.width / 2, 0, "lazerwarning");
+        this.warning = this.scene.add.sprite(
+            this.scene.cameras.main.width / 2,
+            0,
+            IMAGES.LAZER_WARNING.KEY
+        );
         this.warning.setScale((this.scene.cameras.main.width - 200) / 256, 0.5);
         this.add([this.warning, this.laser, this.head, this.tail]);
         this.scene.add.existing(this);
@@ -71,7 +80,7 @@ export class Lazer extends Phaser.GameObjects.Container {
     }
 
     animinit() {
-        Animator.createAnim(this.scene, "laser_shot", "laser", 8, 15, 24, false);
-        Animator.createAnim(this.scene, "headrotate", "lazerhead", 0, 11, 24, false);
+        Animator.createAnim(this.scene, "laser_shot", SPRITESHEET.LASER.KEY, 8, 15, 24, false);
+        Animator.createAnim(this.scene, "headrotate", SPRITESHEET.LAZER_HEAD.KEY, 0, 11, 24, false);
     }
 }

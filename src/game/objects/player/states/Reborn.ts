@@ -1,9 +1,10 @@
+import { AUDIO } from "../../../../assets";
 import { PlayerState } from "./PlayerState";
 
 export class Reborn extends PlayerState {
     hit: Phaser.Sound.BaseSound;
     public onEnter(): void {
-        if (!this.hit) this.hit = this.player.scene.sound.add("hit");
+        if (!this.hit) this.hit = this.player.scene.sound.add(AUDIO.HIT.KEY);
         this.player.playerSprite.flip(false, false);
         this.player.scene.physics.world.gravity.y = Math.abs(
             this.player.scene.physics.world.gravity.y

@@ -1,3 +1,4 @@
+import { SPRITESHEET } from "../../../../assets";
 import { Animator } from "../../../jetpack-joyride/Animator";
 import { GameScene } from "../../../jetpack-joyride/scenes/GameScene";
 import { Coin } from "./Coin";
@@ -18,6 +19,6 @@ export class Bigcoin extends Coin {
     }
 
     private bigCoinAnimInit() {
-        Animator.createAnim(this.scene, "big_coin_flip", "bigcoin", 0, 7);
+        Animator.createAnim(this.scene, "big_coin_flip", SPRITESHEET.BIG_COIN.KEY, 0, 7);
     }
 }
