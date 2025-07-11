@@ -25,7 +25,7 @@ export class BGLoop {
     }
 
     maintain() {
-        if (GameManager.speed > 600 && this.prevBG)
+        if (GameManager.speed > 1500 && this.currentBG.maplayer.x > 0 && this.prevBG)
             this.currentBG.moveTo(this.prevBG.maplayer.x + 4846);
         this.currentBG.maplayer.setDepth(-10);
         this.currentBG.mapBG?.setDepth(-19);
